@@ -10,6 +10,7 @@ func main() {
 	core.InitLogger()
 	global.Config = core.ReadConfig()
 	global.DB = core.InitGorm()
+	global.Casbin = core.InitCasbin()
 	global.Redis = core.InitRedis()
 
 	// 绑定命令行参数

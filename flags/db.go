@@ -1,6 +1,7 @@
 package flags
 
 import (
+	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/lunarise-dev/lunar-gate/global"
 	"github.com/lunarise-dev/lunar-gate/model"
 	"github.com/sirupsen/logrus"
@@ -14,6 +15,7 @@ func AutoMigrate() {
 		&model.RoleMenu{},
 		&model.User{},
 		&model.UserRole{},
+		&gormadapter.CasbinRule{},
 	); err != nil {
 		logrus.Fatalf("表结构迁移失败 %v", err)
 	}
