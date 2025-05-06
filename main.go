@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	core.InitLogger()
 	global.Config = core.ReadConfig()
 	fmt.Println(global.Config)
 }
