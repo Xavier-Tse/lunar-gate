@@ -1,0 +1,20 @@
+package model
+
+import "gorm.io/gorm"
+
+type Menu struct {
+	gorm.Model
+	Name            string  `gorm:"size:32,unique" json:"name"`
+	Path            string  `gorm:"size:64" json:"path"`
+	Component       string  `gorm:"size:128" json:"component"`
+	Meta            Meta    `gorm:"embedded" json:"meta"`
+	ParentMenuID    *uint   `json:"parentMenuID"`
+	ParentMenuModel *Menu   `gorm:"foreignKey:ParentMenuID" json:"-"`
+	Children        []*Menu `gorm:"foreignKey:ParentMenuID" json:"children"`
+	Sort            int     `json:"sort"`
+}
+
+type Meta struct {
+	Icon  string `gorm:"size:255" json:"icon"`
+	Title string `gorm:"size:16" json:"title"`
+}
