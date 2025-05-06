@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/lunarise-dev/lunar-gate/core"
+	"github.com/lunarise-dev/lunar-gate/global"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	global.Config = core.ReadConfig()
+	fmt.Println(global.Config)
 }
