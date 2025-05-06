@@ -2,7 +2,7 @@ package model
 
 import "gorm.io/gorm"
 
-type RoleMenuModel struct {
+type RoleMenu struct {
 	gorm.Model
 	RoleID uint `json:"roleID"`
 	Role   Role `gorm:"foreignKey:RoleID" json:"-"`

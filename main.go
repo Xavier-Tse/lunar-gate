@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/lunarise-dev/lunar-gate/core"
+	"github.com/lunarise-dev/lunar-gate/flags"
 	"github.com/lunarise-dev/lunar-gate/global"
 )
 
@@ -10,4 +11,9 @@ func main() {
 	global.Config = core.ReadConfig()
 	global.DB = core.InitGorm()
 	global.Redis = core.InitRedis()
+
+	// 绑定命令行参数
+	flags.Run()
+
+	// 启动web服务
 }
