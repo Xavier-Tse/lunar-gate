@@ -1,3 +1,10 @@
 system:
   ip:
   port:
+db:
+  mode:     # mysql pgsql sqlite
+  db_name:
+  host:
+  port:
+  user:
+  password:

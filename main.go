@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/lunarise-dev/lunar-gate/core"
 	"github.com/lunarise-dev/lunar-gate/global"
 )
@@ -9,5 +8,5 @@ import (
 func main() {
 	core.InitLogger()
 	global.Config = core.ReadConfig()
-	fmt.Println(global.Config)
+	global.DB = core.InitGorm()
 }
