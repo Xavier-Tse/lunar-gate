@@ -10,6 +10,9 @@ func Run() {
 	s := global.Config.System
 	gin.SetMode(s.Mode)
 	r := gin.Default()
+	g := r.Group("api")
+
+	UserRouter(g)
 
 	r.Static("/static", "./static")
 

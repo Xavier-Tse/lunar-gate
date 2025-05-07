@@ -14,3 +14,7 @@ redis:
   port:
   db:
   password:
+jwt:
+  expires:
+  issuer:
+  secret:
