@@ -1,4 +1,5 @@
 system:
+  mode:     # debug release test
   ip:
   port:
 db:

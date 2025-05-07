@@ -4,6 +4,7 @@ import (
 	"github.com/lunarise-dev/lunar-gate/core"
 	"github.com/lunarise-dev/lunar-gate/flags"
 	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/lunarise-dev/lunar-gate/routers"
 )
 
 func main() {
@@ -17,4 +18,5 @@ func main() {
 	flags.Run()
 
 	// 启动web服务
+	routers.Run()
 }
