@@ -11,8 +11,8 @@ import (
 )
 
 type LoginRequest struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Username string `json:"username" binding:"required" label:"用户名"`
+	Password string `json:"password" binding:"required" label:"密码"`
 }
 
 type LoginResponse struct {
@@ -22,7 +22,7 @@ type LoginResponse struct {
 func (UserApi) Login(c *gin.Context) {
 	var cr LoginRequest
 	if err := c.ShouldBind(&cr); err != nil {
-		res.FailWithError(err, c)
+		res.FailBinding(err, c)
 		return
 	}
 

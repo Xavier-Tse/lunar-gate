@@ -2,6 +2,7 @@ package res
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/lunarise-dev/lunar-gate/utils/validate"
 	"net/http"
 )
 
@@ -42,4 +43,9 @@ func FailWithMessage(message string, c *gin.Context) {
 
 func FailWithError(err error, c *gin.Context) {
 	response(CodeError, gin.H{}, err.Error(), c)
+}
+
+func FailBinding(err error, c *gin.Context) {
+	data := validate.Error(err)
+	response(CodeError, data.FieldMap, data.Message, c)
 }
