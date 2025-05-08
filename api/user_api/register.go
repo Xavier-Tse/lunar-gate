@@ -6,7 +6,7 @@ import (
 	"github.com/lunarise-dev/lunar-gate/common/res"
 	"github.com/lunarise-dev/lunar-gate/global"
 	"github.com/lunarise-dev/lunar-gate/model"
-	"github.com/lunarise-dev/lunar-gate/utils/captcha"
+	"github.com/lunarise-dev/lunar-gate/utils/email"
 	"github.com/lunarise-dev/lunar-gate/utils/pwd"
 )
 
@@ -25,8 +25,9 @@ func (UserApi) Register(c *gin.Context) {
 		return
 	}
 
-	if !captcha.Store.Verify(cr.EmailID, cr.EmailCode, true) {
+	if !email.Verify(cr.EmailID, cr.Email, cr.EmailCode) {
 		res.FailWithMessage("邮箱验证失败", c)
+		email.Remove(cr.EmailID)
 		return
 	}
 	if cr.Password != cr.RePassword {
@@ -38,6 +39,7 @@ func (UserApi) Register(c *gin.Context) {
 	err := global.DB.Take(&user, "email = ?", cr.Email).Error
 	if err == nil {
 		res.FailWithMessage("该邮箱已被使用", c)
+		email.Remove(cr.EmailID)
 		return
 	}
 
@@ -51,6 +53,7 @@ func (UserApi) Register(c *gin.Context) {
 	}).Error
 	if err != nil {
 		res.FailWithMessage("注册失败", c)
+		email.Remove(cr.EmailID)
 		return
 	}
 	res.OkWithMessage("用户注册成功", c)

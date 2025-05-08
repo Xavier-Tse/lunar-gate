@@ -3,11 +3,12 @@ package email_api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/lunarise-dev/lunar-gate/common/res"
 	"github.com/lunarise-dev/lunar-gate/global"
 	"github.com/lunarise-dev/lunar-gate/utils/captcha"
 	"github.com/lunarise-dev/lunar-gate/utils/email"
-	"github.com/mojocn/base64Captcha"
+	"github.com/lunarise-dev/lunar-gate/utils/random"
 	"github.com/sirupsen/logrus"
 )
 
@@ -46,25 +47,11 @@ func (EmailApi) SendEmail(c *gin.Context) {
 		}
 	}
 
-	// 生成的是邮箱验证码
-	var driver = base64Captcha.DriverString{
-		Width:           200,
-		Height:          60,
-		NoiseCount:      2,
-		ShowLineOptions: 4,
-		Length:          4,
-		Source:          "0123456789",
-	}
-	cp := base64Captcha.NewCaptcha(&driver, captcha.Store)
-	id, _, code, err := cp.Generate()
-	if err != nil {
-		logrus.Errorf("邮箱验证码生成失败 %s", err)
-		res.FailWithMessage("验证码生成失败", c)
-		return
-	}
-
+	emailID := uuid.New().String()
+	code := random.RandStringByCode("0123456789", 4)
+	email.Set(emailID, cr.Email, code)
 	content := fmt.Sprintf("您正在进行用户注册，这是你的验证码 %s，5分钟内有效", code)
-	err = email.SendEmail(cr.Email, "用户注册", content)
+	err := email.SendEmail(cr.Email, "用户注册", content)
 	if err != nil {
 		logrus.Errorf("邮箱发送失败 %s", err)
 		res.FailWithMessage("邮箱发送失败", c)
@@ -72,6 +59,6 @@ func (EmailApi) SendEmail(c *gin.Context) {
 	}
 
 	res.OkWithData(SendEmailResponse{
-		EmailID: id,
+		EmailID: emailID,
 	}, c)
 }
