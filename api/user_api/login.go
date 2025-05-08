@@ -5,14 +5,17 @@ import (
 	"github.com/lunarise-dev/lunar-gate/common/res"
 	"github.com/lunarise-dev/lunar-gate/global"
 	"github.com/lunarise-dev/lunar-gate/model"
+	"github.com/lunarise-dev/lunar-gate/utils/captcha"
 	"github.com/lunarise-dev/lunar-gate/utils/jwts"
 	"github.com/lunarise-dev/lunar-gate/utils/pwd"
 	"github.com/sirupsen/logrus"
 )
 
 type LoginRequest struct {
-	Username string `json:"username" binding:"required" label:"用户名"`
-	Password string `json:"password" binding:"required" label:"密码"`
+	Username    string `json:"username" binding:"required" label:"用户名"`
+	Password    string `json:"password" binding:"required" label:"密码"`
+	CaptchaID   string `json:"captchaID"`
+	CaptchaCode string `json:"captchaCode"`
 }
 
 type LoginResponse struct {
@@ -24,6 +27,17 @@ func (UserApi) Login(c *gin.Context) {
 	if err := c.ShouldBind(&cr); err != nil {
 		res.FailBinding(err, c)
 		return
+	}
+
+	if global.Config.Captcha.Enable {
+		if cr.CaptchaID == "" || cr.CaptchaCode == "" {
+			res.FailWithMessage("请输入验证码内容", c)
+			return
+		}
+		if !captcha.Store.Verify(cr.CaptchaID, cr.CaptchaCode, true) {
+			res.FailWithMessage("验证失败", c)
+			return
+		}
 	}
 
 	var user model.User

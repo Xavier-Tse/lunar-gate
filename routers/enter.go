@@ -13,6 +13,7 @@ func Run() {
 	g := r.Group("api")
 
 	UserRouter(g)
+	CaptchaRouter(g)
 
 	r.Static("/static", "./static")
 
