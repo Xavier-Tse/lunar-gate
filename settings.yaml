@@ -21,3 +21,10 @@ jwt:
 captcha:
   enable:
   type:
+email:
+  enable:
+  domain:
+  port:
+  send_email:
+  auth_code:
+  send_nickname:

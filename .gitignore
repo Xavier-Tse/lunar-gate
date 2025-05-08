@@ -53,6 +53,7 @@ Thumbs.db
 # Cypress 测试相关
 /cypress/screenshots
 /cypress/videos
+testdata
 
 # 本地环境变量文件
 .env
