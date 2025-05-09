@@ -1,10 +1,9 @@
 package user_api
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/lunarise-dev/lunar-gate/common/query"
 	"github.com/lunarise-dev/lunar-gate/common/res"
-	"github.com/lunarise-dev/lunar-gate/global"
 	"github.com/lunarise-dev/lunar-gate/model"
 )
 
@@ -26,17 +25,12 @@ func (UserApi) UserList(c *gin.Context) {
 		return
 	}
 
-	var list = make([]model.User, 0)
-	offset := (cr.Page.Page - 1) * cr.Limit
-	global.DB.Preload("RoleList").Where(model.User{
+	list, count, _ := query.List(model.User{
 		Username: cr.Username,
 		Email:    cr.Email,
-	}).Order(cr.Sort).Where("nickname like ?", fmt.Sprintf("%%%s%%", cr.Key)).Limit(cr.Limit).Offset(offset).Find(&list)
-
-	var count int64
-	global.DB.Model(model.User{}).Where(model.User{
-		Username: cr.Username,
-		Email:    cr.Email,
-	}).Count(&count)
-	res.OkWithData(gin.H{"list": list, "count": count}, c)
+	}, query.Option{
+		Page:  cr.Page,
+		Likes: []string{"nickname", "username"},
+	})
+	res.OkWithList(list, count, c)
 }
