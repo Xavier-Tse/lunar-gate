@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/lunarise-dev/lunar-gate/api"
+	"github.com/lunarise-dev/lunar-gate/middleware"
 )
 
 func UserRouter(g *gin.RouterGroup) {
@@ -10,4 +11,5 @@ func UserRouter(g *gin.RouterGroup) {
 	app := api.App
 	r.POST("login", app.Login)
 	r.POST("register", app.Register)
+	r.PUT("password", middleware.Auth(), app.UpdatePassword)
 }
