@@ -12,4 +12,5 @@ func UserRouter(g *gin.RouterGroup) {
 	r.POST("login", app.Login)
 	r.POST("register", app.Register)
 	r.PUT("password", middleware.Auth(), app.UpdatePassword)
+	r.PUT("info", middleware.Auth(), app.UpdateUserinfo)
 }
