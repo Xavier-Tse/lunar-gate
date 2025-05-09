@@ -12,3 +12,11 @@ type User struct {
 	IsAdmin  bool   `gorm:"default:false" json:"isAdmin"`
 	RoleList []Role `gorm:"many2many:user_roles;joinForeignKey:UserID;JoinReferences:RoleID" json:"roleList"`
 }
+
+func (u User) GetRoleList() []uint {
+	var roleList []uint
+	for _, role := range u.RoleList {
+		roleList = append(roleList, role.ID)
+	}
+	return roleList
+}
