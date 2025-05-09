@@ -20,7 +20,7 @@ jwt:
   secret:
 captcha:
   enable:
-  type:
+  type:     # string math
 email:
   enable:
   domain:

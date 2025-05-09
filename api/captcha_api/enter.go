@@ -22,6 +22,8 @@ func (CaptchaApi) GenerateCaptcha(c *gin.Context) {
 	switch global.Config.Captcha.Type {
 	case "string":
 		driver = stringCaptcha()
+	case "math":
+		driver = mathCaptcha()
 	}
 
 	cp := base64Captcha.NewCaptcha(driver, captcha.Store)
@@ -46,6 +48,16 @@ func stringCaptcha() *base64Captcha.DriverString {
 		ShowLineOptions: 4,
 		Length:          6,
 		Source:          "0123456789",
+	}
+	return d
+}
+
+func mathCaptcha() *base64Captcha.DriverMath {
+	d := &base64Captcha.DriverMath{
+		Width:           200,
+		Height:          60,
+		NoiseCount:      0,
+		ShowLineOptions: 0,
 	}
 	return d
 }

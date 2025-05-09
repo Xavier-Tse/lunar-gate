@@ -21,7 +21,7 @@ func Verify(emailID, email, code string) bool {
 	if !ok {
 		return false
 	}
-	es, ok := info.(emailStore) // 类型断言
+	es, ok := info.(emailStore)
 	if !ok {
 		return false
 	}
