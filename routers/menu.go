@@ -13,4 +13,5 @@ func MenuRouter(g *gin.RouterGroup) {
 	r.GET("list", middleware.Auth(), app.MenuList)
 	r.GET("tree", middleware.Auth(), app.MenuTree)
 	r.PUT("update", middleware.Auth(), app.MenuUpdate)
+	r.DELETE("remove", middleware.Auth(), app.MenuRemove)
 }

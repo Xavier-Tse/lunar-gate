@@ -1,6 +1,10 @@
 package model
 
-import "github.com/lunarise-dev/lunar-gate/global"
+import (
+	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
+)
 
 type Menu struct {
 	LunarModel
@@ -18,6 +22,23 @@ type Menu struct {
 type Meta struct {
 	Icon  string `gorm:"size:255" json:"icon"`
 	Title string `gorm:"size:16" json:"title"`
+}
+
+func (u Menu) BeforeDelete(tx *gorm.DB) error {
+	tx.Preload("Children").Take(&u)
+	for _, child := range u.Children {
+		tx.Model(child).Update("parent_menu_id", u.ParentMenuID)
+		if u.ParentMenuID == nil {
+			logrus.Infof("删除菜单 %d,修改菜单 %d 的parent_menu_id为 null", u.ID, child.ID)
+		} else {
+			logrus.Infof("删除菜单 %d,修改菜单 %d 的parent_menu_id为 %d", u.ID, child.ID, *u.ParentMenuID)
+		}
+	}
+
+	var roleMenuList []RoleMenu
+	err := tx.Find(&roleMenuList, "menu_id = ?", u.ID).Delete(&roleMenuList).Error
+	logrus.Infof("删除菜单 %d,删除角色菜单 %d 条", u.ID, len(roleMenuList))
+	return err
 }
 
 func FindSubMenuList(model Menu) []Menu {
