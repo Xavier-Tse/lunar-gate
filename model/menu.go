@@ -1,9 +1,7 @@
 package model
 
-import "gorm.io/gorm"
-
 type Menu struct {
-	gorm.Model
+	LunarModel
 	Enable          bool    `gorm:"default:false" json:"enable"`
 	Name            string  `gorm:"size:32,unique" json:"name"`
 	Path            string  `gorm:"size:64" json:"path"`
