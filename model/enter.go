@@ -6,3 +6,11 @@ type Page struct {
 	Sort  string `form:"sort"`
 	Key   string `form:"key"`
 }
+
+type IDRequest struct {
+	ID uint `json:"id" form:"id" url:"id"`
+}
+
+type IDListRequest struct {
+	IDList []uint `json:"idList"`
+}

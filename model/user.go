@@ -1,6 +1,9 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
@@ -11,6 +14,13 @@ type User struct {
 	Password string `gorm:"size:64" json:"-"`
 	IsAdmin  bool   `gorm:"default:false" json:"isAdmin"`
 	RoleList []Role `gorm:"many2many:user_roles;joinForeignKey:UserID;JoinReferences:RoleID" json:"roleList"`
+}
+
+func (u User) BeforeDelete(tx *gorm.DB) error {
+	var userRoleList []UserRole
+	err := tx.Find(&userRoleList, "user_id = ?", u.ID).Delete(&userRoleList).Error
+	logrus.Infof("删除用户权限 %d 条", len(userRoleList))
+	return err
 }
 
 func (u User) GetRoleList() []uint {
