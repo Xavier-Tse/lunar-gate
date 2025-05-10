@@ -15,6 +15,7 @@ func Run() {
 	UserRouter(g)
 	CaptchaRouter(g)
 	EmailRouter(g)
+	MenuRouter(g)
 
 	r.Static("/static", "./static")
 

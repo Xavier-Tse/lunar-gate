@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Menu struct {
 	gorm.Model
+	Enable          bool    `gorm:"default:false" json:"enable"`
 	Name            string  `gorm:"size:32,unique" json:"name"`
 	Path            string  `gorm:"size:64" json:"path"`
 	Component       string  `gorm:"size:128" json:"component"`
