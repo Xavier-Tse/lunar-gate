@@ -1,5 +1,7 @@
 package model
 
+import "github.com/lunarise-dev/lunar-gate/global"
+
 type Menu struct {
 	LunarModel
 	Enable          bool    `gorm:"default:false" json:"enable"`
@@ -16,4 +18,15 @@ type Menu struct {
 type Meta struct {
 	Icon  string `gorm:"size:255" json:"icon"`
 	Title string `gorm:"size:16" json:"title"`
+}
+
+func FindSubMenuList(model Menu) []Menu {
+	global.DB.Preload("Children").Take(&model)
+
+	var list []Menu
+	list = append(list, model)
+	for _, child := range model.Children {
+		list = append(list, FindSubMenuList(*child)...)
+	}
+	return list
 }
