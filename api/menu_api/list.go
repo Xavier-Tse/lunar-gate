@@ -20,11 +20,16 @@ func (MenuApi) MenuList(c *gin.Context) {
 	}
 
 	cr.Page.Sort = "sort desc"
-	list, count, _ := query.List(model.Menu{}, query.Option{
-		Page:     cr.Page,
-		Likes:    []string{"name", "title"},
-		Where:    global.DB.Where("parent_menu_id is null"),
-		Preloads: []string{"Children"},
+	list, count, _ := query.List(&model.Menu{}, query.Option{
+		Page:  cr.Page,
+		Likes: []string{"name", "title"},
+		Where: global.DB.Where("parent_menu_id is null"),
+		Callback: func(_list any) {
+			list := _list.([]*model.Menu)
+			for _, menu := range list {
+				findSubMenuList(menu)
+			}
+		},
 	})
 	res.OkWithList(list, count, c)
 }

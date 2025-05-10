@@ -13,6 +13,7 @@ type Option struct {
 	Where    *gorm.DB
 	Debug    bool
 	Preloads []string
+	Callback func(list any)
 }
 
 func List[T any](model T, option Option) (list []T, count int64, err error) {
@@ -48,6 +49,9 @@ func List[T any](model T, option Option) (list []T, count int64, err error) {
 	}
 
 	baseDB.Limit(option.Page.Limit).Offset(offset).Order(option.Page.Sort).Find(&list)
+	if option.Callback != nil {
+		option.Callback(list)
+	}
 	baseDB.Model(model).Count(&count)
 	return
 }
