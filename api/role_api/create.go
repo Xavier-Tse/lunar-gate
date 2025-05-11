@@ -21,14 +21,14 @@ func (RoleApi) RoleCreate(c *gin.Context) {
 	var role model.Role
 	err := global.DB.Take(&role, "title = ?", cr.Title).Error
 	if err == nil {
-		res.FailWithMessage("权限名称重复", c)
+		res.FailWithMessage("角色名称重复", c)
 		return
 	}
 	role.Title = cr.Title
 	err = global.DB.Create(&role).Error
 	if err != nil {
-		res.FailWithMessage("权限创建失败", c)
+		res.FailWithMessage("角色创建失败", c)
 		return
 	}
-	res.Ok(role.ID, "权限创建成功", c)
+	res.Ok(role.ID, "角色创建成功", c)
 }

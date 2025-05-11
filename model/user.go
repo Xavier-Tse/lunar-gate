@@ -19,7 +19,7 @@ type User struct {
 func (u User) BeforeDelete(tx *gorm.DB) error {
 	var userRoleList []UserRole
 	err := tx.Find(&userRoleList, "user_id = ?", u.ID).Delete(&userRoleList).Error
-	logrus.Infof("删除用户权限 %d 条", len(userRoleList))
+	logrus.Infof("删除用户角色 %d 条", len(userRoleList))
 	return err
 }
 
