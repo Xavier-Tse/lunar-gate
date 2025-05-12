@@ -21,6 +21,8 @@ func Run() {
 
 	r.Static("/static", "./static")
 
+	global.RoutesInfo = r.Routes()
+
 	logrus.Infof("web服务运行在 %s", s.Addr())
 	err := r.Run(s.Addr())
 	if err != nil {
