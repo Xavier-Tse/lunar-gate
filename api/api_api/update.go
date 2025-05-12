@@ -15,7 +15,7 @@ type ApiUpdateRequest struct {
 	Group  string `json:"group" binding:"required,max=32"` // api分组
 }
 
-func (ApiApi) ApiUpdate(c *gin.Context) {
+func (ApiApi) Update(c *gin.Context) {
 	var cr ApiUpdateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

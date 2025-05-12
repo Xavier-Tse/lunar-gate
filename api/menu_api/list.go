@@ -12,7 +12,7 @@ type MenuListRequest struct {
 	model.Page
 }
 
-func (MenuApi) MenuList(c *gin.Context) {
+func (MenuApi) List(c *gin.Context) {
 	var cr MenuListRequest
 	if err := c.ShouldBindQuery(&cr); err != nil {
 		res.FailBinding(err, c)

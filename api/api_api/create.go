@@ -14,7 +14,7 @@ type ApiCreateRequest struct {
 	Group  string `json:"group" binding:"required,max=32"` // api分组
 }
 
-func (ApiApi) ApiCreate(c *gin.Context) {
+func (ApiApi) Create(c *gin.Context) {
 	var cr ApiCreateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

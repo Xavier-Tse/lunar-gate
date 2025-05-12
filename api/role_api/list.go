@@ -19,7 +19,7 @@ type RoleListResponse struct {
 	RoleMenuCount int    `json:"roleMenuCount"`
 }
 
-func (RoleApi) RoleList(c *gin.Context) {
+func (RoleApi) List(c *gin.Context) {
 	var cr RoleListRequest
 	if err := c.ShouldBindQuery(&cr); err != nil {
 		res.FailBinding(err, c)

@@ -18,7 +18,7 @@ type UserListResponse struct {
 	model.User
 }
 
-func (UserApi) UserList(c *gin.Context) {
+func (UserApi) List(c *gin.Context) {
 	var cr UserListRequest
 	if err := c.ShouldBindQuery(&cr); err != nil {
 		res.FailBinding(err, c)

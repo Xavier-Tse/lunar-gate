@@ -17,7 +17,7 @@ type GenerateCaptchaResponse struct {
 	Captcha   string `json:"captcha"`
 }
 
-func (CaptchaApi) GenerateCaptcha(c *gin.Context) {
+func (CaptchaApi) Generate(c *gin.Context) {
 	var driver base64Captcha.Driver
 	switch global.Config.Captcha.Type {
 	case "string":

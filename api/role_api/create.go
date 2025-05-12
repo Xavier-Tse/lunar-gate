@@ -11,7 +11,7 @@ type RoleCreateRequest struct {
 	Title string `json:"title" binding:"required,max=16"`
 }
 
-func (RoleApi) RoleCreate(c *gin.Context) {
+func (RoleApi) Create(c *gin.Context) {
 	var cr RoleCreateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

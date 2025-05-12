@@ -7,7 +7,7 @@ import (
 	"github.com/lunarise-dev/lunar-gate/model"
 )
 
-func (MenuApi) MenuTree(c *gin.Context) {
+func (MenuApi) Tree(c *gin.Context) {
 	var menuList []*model.Menu
 	global.DB.Order("sort desc").Find(&menuList, "parent_menu_id is null")
 	for _, u := range menuList {

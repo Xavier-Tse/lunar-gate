@@ -21,7 +21,7 @@ type MenuUpdateRequest struct {
 	Sort         *int    `json:"sort" maps:"sort"`
 }
 
-func (MenuApi) MenuUpdate(c *gin.Context) {
+func (MenuApi) Update(c *gin.Context) {
 	var cr MenuUpdateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

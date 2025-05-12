@@ -18,7 +18,7 @@ type MenuCreateRequest struct {
 	Sort         int    `json:"sort"`
 }
 
-func (MenuApi) MenuCreate(c *gin.Context) {
+func (MenuApi) Create(c *gin.Context) {
 	var cr MenuCreateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

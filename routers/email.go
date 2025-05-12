@@ -7,6 +7,6 @@ import (
 
 func EmailRouter(g *gin.RouterGroup) {
 	r := g.Group("email")
-	app := api.App
-	r.POST("send", app.SendEmail)
+	app := api.App.EmailApi
+	r.POST("send", app.Send)
 }

@@ -7,10 +7,10 @@ import (
 )
 
 func RoleRouter(g *gin.RouterGroup) {
-	r := g.Group("/role")
-	app := api.App
-	r.POST("create", middleware.Auth(), app.RoleCreate)
-	r.GET("list", middleware.Auth(), app.RoleList)
-	r.PUT("update", middleware.Auth(), app.RoleUpdate)
-	r.DELETE("remove", middleware.Auth(), app.RoleRemove)
+	r := g.Group("role")
+	app := api.App.RoleApi
+	r.POST("create", middleware.Auth(), app.Create)
+	r.GET("list", middleware.Auth(), app.List)
+	r.PUT("update", middleware.Auth(), app.Update)
+	r.DELETE("remove", middleware.Auth(), app.Remove)
 }

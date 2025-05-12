@@ -12,7 +12,7 @@ type RoleUpdateRequest struct {
 	Title string `json:"title" binding:"required,max=16"`
 }
 
-func (RoleApi) RoleUpdate(c *gin.Context) {
+func (RoleApi) Update(c *gin.Context) {
 	var cr RoleUpdateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

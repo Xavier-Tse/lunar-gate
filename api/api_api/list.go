@@ -13,7 +13,7 @@ type ApiListRequest struct {
 	Group  string `form:"group"`
 }
 
-func (ApiApi) ApiList(c *gin.Context) {
+func (ApiApi) List(c *gin.Context) {
 	var cr ApiListRequest
 	if err := c.ShouldBindQuery(&cr); err != nil {
 		res.FailBinding(err, c)

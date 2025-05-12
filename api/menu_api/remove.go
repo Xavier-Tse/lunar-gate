@@ -8,7 +8,7 @@ import (
 	"github.com/lunarise-dev/lunar-gate/model"
 )
 
-func (MenuApi) MenuRemove(c *gin.Context) {
+func (MenuApi) Remove(c *gin.Context) {
 	var cr model.IDListRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

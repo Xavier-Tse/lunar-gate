@@ -8,7 +8,7 @@ import (
 	"github.com/lunarise-dev/lunar-gate/model"
 )
 
-func (UserApi) UserRemove(c *gin.Context) {
+func (UserApi) Remove(c *gin.Context) {
 	var cr model.IDListRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)

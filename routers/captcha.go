@@ -7,6 +7,6 @@ import (
 
 func CaptchaRouter(g *gin.RouterGroup) {
 	r := g.Group("captcha")
-	app := api.App
-	r.GET("/generate", app.GenerateCaptcha)
+	app := api.App.CaptchaApi
+	r.GET("/generate", app.Generate)
 }

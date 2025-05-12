@@ -24,7 +24,7 @@ type SendEmailResponse struct {
 	EmailID string `json:"emailID"`
 }
 
-func (EmailApi) SendEmail(c *gin.Context) {
+func (EmailApi) Send(c *gin.Context) {
 	var cr SendEmailRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)
