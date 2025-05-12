@@ -2,8 +2,8 @@ package model
 
 type Api struct {
 	LunarModel
-	Name   string `json:"name"`
-	Path   string `json:"path"`
-	Method string `json:"method"`
-	Group  string `json:"group"`
+	Name   string `gorm:"size:32" json:"name"`
+	Path   string `gorm:"size:255" json:"path"`
+	Method string `gorm:"size:16" json:"method"`
+	Group  string `gorm:"size:32" json:"group"`
 }

@@ -17,6 +17,7 @@ func Run() {
 	EmailRouter(g)
 	MenuRouter(g)
 	RoleRouter(g)
+	ApiRouter(g)
 
 	r.Static("/static", "./static")
 
