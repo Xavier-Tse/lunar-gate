@@ -18,6 +18,7 @@ func Run() {
 	MenuRouter(g)
 	RoleRouter(g)
 	ApiRouter(g)
+	PermissionRouter(g)
 
 	r.Static("/static", "./static")
 
