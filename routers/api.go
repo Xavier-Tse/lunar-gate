@@ -14,4 +14,5 @@ func ApiRouter(g *gin.RouterGroup) {
 	r.GET("list", middleware.Auth(), app.List)
 	r.DELETE("remove", middleware.Auth(), app.Remove)
 	r.GET("system", middleware.Auth(), app.SystemRouterList)
+	r.POST("create/patch", middleware.Auth(), app.PatchCreate)
 }
