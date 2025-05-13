@@ -10,6 +10,7 @@ type Role struct {
 	Title    string `gorm:"size:32,unique" json:"title"`
 	UserList []User `gorm:"many2many:user_roles;joinForeignKey:RoleID;JoinReferences:UserID" json:"userList"`
 	MenuList []Menu `gorm:"many2many:role_menus;joinForeignKey:RoleID;JoinReferences:MenuID" json:"menuList"`
+	ApiList  []Api  `gorm:"many2many:role_apis;joinForeignKey:RoleID;JoinReferences:ApiID" json:"apiList"`
 }
 
 func (r Role) BeforeDelete(tx *gorm.DB) error {

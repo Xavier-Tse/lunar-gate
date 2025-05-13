@@ -12,6 +12,7 @@ func AutoMigrate() {
 		&model.Api{},
 		&model.Menu{},
 		&model.Role{},
+		&model.RoleApi{},
 		&model.RoleMenu{},
 		&model.User{},
 		&model.UserRole{},
