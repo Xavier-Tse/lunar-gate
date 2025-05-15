@@ -1,10 +1,12 @@
 package api_api
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type ApiUpdateRequest struct {
@@ -37,6 +39,22 @@ func (ApiApi) Update(c *gin.Context) {
 	if err == nil {
 		res.FailWithMessage("api名称不能重复", c)
 		return
+	}
+
+	// 判断有没有更新 path和method
+	if api.Path != cr.Path || api.Method != cr.Method {
+		logrus.Infof("api发生变化 %s %s => %s %s", api.Method, api.Path, cr.Method, cr.Path)
+
+		var roleApiList []model.RoleApi
+		global.DB.Find(&roleApiList, "api_id = ?", cr.ID)
+		for _, r := range roleApiList {
+			oldPolicy := []string{fmt.Sprintf("%d", r.RoleID), api.Path, api.Method}
+			newPolicy := []string{fmt.Sprintf("%d", r.RoleID), cr.Path, cr.Method}
+			global.Casbin.UpdatePolicy(oldPolicy, newPolicy)
+		}
+		if len(roleApiList) > 0 {
+			global.Casbin.SavePolicy()
+		}
 	}
 
 	err = global.DB.Model(&api).Updates(model.Api{
