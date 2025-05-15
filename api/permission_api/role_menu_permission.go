@@ -31,8 +31,15 @@ func (PermissionApi) RoleMenuPermission(c *gin.Context) {
 	var menuList []model.Menu
 	global.DB.Find(&menuList, "id in ?", cr.MenuIDList)
 	if len(menuList) != len(cr.MenuIDList) {
-		res.FailWithMessage("菜单数量不一致，请检查", c)
+		res.FailWithMessage("选中的menu id不可用，请检查", c)
 		return
+	}
+
+	for _, menu := range menuList {
+		if !menu.Enable {
+			res.FailWithMessage("选中隐藏菜单，请检查", c)
+			return
+		}
 	}
 
 	var menuRoleIDList []uint

@@ -18,6 +18,7 @@ type RoleListResponse struct {
 	RoleApiCount  int    `json:"roleApiCount"`
 	RoleMenuCount int    `json:"roleMenuCount"`
 	ApiIDList     []uint `json:"apiIDList"`
+	MenuIDList    []uint `json:"menuIDList"`
 }
 
 func (RoleApi) List(c *gin.Context) {
@@ -35,8 +36,12 @@ func (RoleApi) List(c *gin.Context) {
 	var list = make([]RoleListResponse, 0)
 	for _, role := range _list {
 		var apiIDList = make([]uint, 0)
+		var menuIDList = make([]uint, 0)
 		for _, api := range role.ApiList {
 			apiIDList = append(apiIDList, api.ID)
+		}
+		for _, menu := range role.MenuList {
+			menuIDList = append(menuIDList, menu.ID)
 		}
 		list = append(list, RoleListResponse{
 			LunarModel:    role.LunarModel,
@@ -45,6 +50,7 @@ func (RoleApi) List(c *gin.Context) {
 			RoleMenuCount: len(role.MenuList),
 			RoleApiCount:  len(role.ApiList),
 			ApiIDList:     apiIDList,
+			MenuIDList:    menuIDList,
 		})
 	}
 	res.OkWithList(list, count, c)
