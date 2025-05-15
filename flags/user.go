@@ -2,9 +2,9 @@ package flags
 
 import (
 	"fmt"
-	"github.com/lunarise-dev/lunar-gate/global"
-	"github.com/lunarise-dev/lunar-gate/model"
-	"github.com/lunarise-dev/lunar-gate/utils/pwd"
+	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/Xavier-Tse/lunar-gate/utils/pwd"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"

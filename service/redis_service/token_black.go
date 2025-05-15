@@ -2,7 +2,7 @@ package redis_service
 
 import (
 	"context"
-	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/global"
 )
 
 func TokenBlack(tokenString string) bool {

@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lunarise-dev/lunar-gate/common/res"
-	"github.com/lunarise-dev/lunar-gate/service/redis_service"
-	"github.com/lunarise-dev/lunar-gate/utils/jwts"
+	"github.com/Xavier-Tse/lunar-gate/common/res"
+	"github.com/Xavier-Tse/lunar-gate/service/redis_service"
+	"github.com/Xavier-Tse/lunar-gate/utils/jwts"
 	"strings"
 )
 

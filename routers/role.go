@@ -2,8 +2,8 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lunarise-dev/lunar-gate/api"
-	"github.com/lunarise-dev/lunar-gate/middleware"
+	"github.com/Xavier-Tse/lunar-gate/api"
+	"github.com/Xavier-Tse/lunar-gate/middleware"
 )
 
 func RoleRouter(g *gin.RouterGroup) {

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/lunarise-dev/lunar-gate/common/res"
-	"github.com/lunarise-dev/lunar-gate/global"
-	"github.com/lunarise-dev/lunar-gate/utils/captcha"
-	"github.com/lunarise-dev/lunar-gate/utils/email"
-	"github.com/lunarise-dev/lunar-gate/utils/random"
+	"github.com/Xavier-Tse/lunar-gate/common/res"
+	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/utils/captcha"
+	"github.com/Xavier-Tse/lunar-gate/utils/email"
+	"github.com/Xavier-Tse/lunar-gate/utils/random"
 	"github.com/sirupsen/logrus"
 )
 

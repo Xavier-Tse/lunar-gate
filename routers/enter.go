@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/sirupsen/logrus"
 )
 

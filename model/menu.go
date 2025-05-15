@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )

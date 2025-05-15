@@ -2,9 +2,9 @@ package api_api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lunarise-dev/lunar-gate/common/query"
-	"github.com/lunarise-dev/lunar-gate/common/res"
-	"github.com/lunarise-dev/lunar-gate/model"
+	"github.com/Xavier-Tse/lunar-gate/common/query"
+	"github.com/Xavier-Tse/lunar-gate/common/res"
+	"github.com/Xavier-Tse/lunar-gate/model"
 )
 
 type ApiListRequest struct {

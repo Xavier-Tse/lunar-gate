@@ -3,7 +3,7 @@ package core
 import (
 	"context"
 	"fmt"
-	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 )

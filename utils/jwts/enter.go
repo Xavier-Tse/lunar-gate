@@ -3,7 +3,7 @@ package jwts
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/global"
 	"time"
 )
 

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/lunarise-dev/lunar-gate/core"
-	"github.com/lunarise-dev/lunar-gate/flags"
-	"github.com/lunarise-dev/lunar-gate/global"
-	"github.com/lunarise-dev/lunar-gate/routers"
+	"github.com/Xavier-Tse/lunar-gate/core"
+	"github.com/Xavier-Tse/lunar-gate/flags"
+	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/routers"
 )
 
 func main() {

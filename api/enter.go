@@ -1,13 +1,13 @@
 package api
 
 import (
-	"github.com/lunarise-dev/lunar-gate/api/api_api"
-	"github.com/lunarise-dev/lunar-gate/api/captcha_api"
-	"github.com/lunarise-dev/lunar-gate/api/email_api"
-	"github.com/lunarise-dev/lunar-gate/api/menu_api"
-	"github.com/lunarise-dev/lunar-gate/api/permission_api"
-	"github.com/lunarise-dev/lunar-gate/api/role_api"
-	"github.com/lunarise-dev/lunar-gate/api/user_api"
+	"github.com/Xavier-Tse/lunar-gate/api/api_api"
+	"github.com/Xavier-Tse/lunar-gate/api/captcha_api"
+	"github.com/Xavier-Tse/lunar-gate/api/email_api"
+	"github.com/Xavier-Tse/lunar-gate/api/menu_api"
+	"github.com/Xavier-Tse/lunar-gate/api/permission_api"
+	"github.com/Xavier-Tse/lunar-gate/api/role_api"
+	"github.com/Xavier-Tse/lunar-gate/api/user_api"
 )
 
 type Api struct {

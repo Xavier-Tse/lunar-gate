@@ -3,11 +3,11 @@ package user_api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/lunarise-dev/lunar-gate/common/res"
-	"github.com/lunarise-dev/lunar-gate/global"
-	"github.com/lunarise-dev/lunar-gate/model"
-	"github.com/lunarise-dev/lunar-gate/utils/email"
-	"github.com/lunarise-dev/lunar-gate/utils/pwd"
+	"github.com/Xavier-Tse/lunar-gate/common/res"
+	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/Xavier-Tse/lunar-gate/utils/email"
+	"github.com/Xavier-Tse/lunar-gate/utils/pwd"
 )
 
 type RegisterRequest struct {

@@ -3,7 +3,7 @@ package email
 import (
 	"fmt"
 	"github.com/jordan-wright/email"
-	"github.com/lunarise-dev/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/global"
 	"net/smtp"
 	"strings"
 )

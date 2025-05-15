@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/lunarise-dev/lunar-gate/config"
-	"github.com/lunarise-dev/lunar-gate/flags"
+	"github.com/Xavier-Tse/lunar-gate/config"
+	"github.com/Xavier-Tse/lunar-gate/flags"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 	"os"

@@ -2,7 +2,7 @@ package res
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lunarise-dev/lunar-gate/utils/validate"
+	"github.com/Xavier-Tse/lunar-gate/utils/validate"
 	"net/http"
 )
 

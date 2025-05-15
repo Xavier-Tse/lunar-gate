@@ -2,8 +2,8 @@ package query
 
 import (
 	"fmt"
-	"github.com/lunarise-dev/lunar-gate/global"
-	"github.com/lunarise-dev/lunar-gate/model"
+	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/model"
 	"gorm.io/gorm"
 )
 
