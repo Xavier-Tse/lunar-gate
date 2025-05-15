@@ -1,13 +1,13 @@
 package user_api
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
 	"github.com/Xavier-Tse/lunar-gate/utils/captcha"
 	"github.com/Xavier-Tse/lunar-gate/utils/jwts"
 	"github.com/Xavier-Tse/lunar-gate/utils/pwd"
+	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
@@ -60,6 +60,7 @@ func (UserApi) Login(c *gin.Context) {
 		UserID:   user.ID,
 		Username: user.Username,
 		RoleList: roleList,
+		IsAdmin:  user.IsAdmin,
 	})
 	if err != nil {
 		logrus.Errorf("jwt生成token失败 %v", err)

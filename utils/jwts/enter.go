@@ -2,8 +2,8 @@ package jwts
 
 import (
 	"errors"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/dgrijalva/jwt-go"
 	"time"
 )
 
@@ -11,6 +11,7 @@ type ClaimsUserInfo struct {
 	UserID   uint   `json:"userID"`
 	Username string `json:"username"`
 	RoleList []uint `json:"role"`
+	IsAdmin  bool   `json:"isAdmin"`
 }
 
 type Claims struct {

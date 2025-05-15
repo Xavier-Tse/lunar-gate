@@ -14,6 +14,7 @@ func Run() {
 	g := r.Group("api")
 
 	g.Use(middleware.Auth())
+	g.Use(middleware.Permission())
 
 	UserRouter(g)
 	CaptchaRouter(g)
