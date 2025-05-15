@@ -9,7 +9,13 @@ import (
 )
 
 func InitCasbin() *casbin.CachedEnforcer {
-	a, _ := gormadapter.NewAdapterByDB(global.DB)
+	// STEP 1: 创建 Gorm 适配器
+	a, err := gormadapter.NewAdapterByDB(global.DB)
+	if err != nil {
+		logrus.Fatalf("创建Casbin GORM适配器失败: %v", err)
+	}
+
+	// STEP 2: 定义 Casbin 模型
 	casbinModel := `
 [request_definition]
 r = sub, obj, act
@@ -28,10 +34,21 @@ m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 `
 	m, err := model.NewModelFromString(casbinModel)
 	if err != nil {
-		logrus.Fatalf("casbin模型加载失败")
+		logrus.Fatalf("casbin模型加载失败: %v", err)
 	}
-	e, _ := casbin.NewCachedEnforcer(m, a)
+
+	// STEP 3: 创建enforcer
+	e, err := casbin.NewCachedEnforcer(m, a)
+	if err != nil {
+		logrus.Fatalf("创建Casbin Enforcer失败: %v", err)
+	}
+
+	// STEP 4: 设置缓存时间
 	e.SetExpireTime(60 * 60)
-	_ = e.LoadPolicy()
+
+	// STEP 5: 加载策略
+	if err := e.LoadPolicy(); err != nil {
+		logrus.Fatalf("Casbin策略加载失败: %v", err)
+	}
 	return e
 }

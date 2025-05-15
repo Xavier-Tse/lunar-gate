@@ -57,6 +57,20 @@ func (PermissionApi) RoleApiPermission(c *gin.Context) {
 			})
 		}
 		global.DB.Create(&addRoleApiList)
+		addRoleApiList = []model.RoleApi{}
+		global.DB.Preload("Api").Find(&addRoleApiList, "role_id = ? and api_id in ?", cr.RoleID, addList)
+		for _, api := range addRoleApiList {
+			global.Casbin.AddPolicy(fmt.Sprintf("%d", api.RoleID), api.Api.Path, api.Api.Method)
+		}
+	}
+
+	if len(removeList) > 0 {
+		var removeRoleApiList []model.RoleApi
+		global.DB.Preload("Api").Find(&removeRoleApiList, "role_id = ? and api_id in ?", cr.RoleID, removeList)
+		for _, api := range removeRoleApiList {
+			global.Casbin.RemovePolicy(fmt.Sprintf("%d", api.RoleID), api.Api.Path, api.Api.Method)
+		}
+		global.DB.Delete(&removeRoleApiList)
 	}
 
 	if len(removeList) > 0 {
