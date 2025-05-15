@@ -1,8 +1,9 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/Xavier-Tse/lunar-gate/middleware"
+	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
@@ -11,6 +12,8 @@ func Run() {
 	gin.SetMode(s.Mode)
 	r := gin.Default()
 	g := r.Group("api")
+
+	g.Use(middleware.Auth())
 
 	UserRouter(g)
 	CaptchaRouter(g)

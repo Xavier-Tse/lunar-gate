@@ -28,3 +28,9 @@ email:
   send_email:
   auth_code:
   send_nickname:
+router:
+  white_router:
+    - /api/captcha/generate
+    - /api/email/send
+    - /api/user/login
+    - /api/user/register

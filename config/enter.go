@@ -7,4 +7,5 @@ type Config struct {
 	Jwt     `yaml:"jwt"`
 	Captcha `yaml:"captcha"`
 	Email   `yaml:"email"`
+	Router  `yaml:"router"`
 }

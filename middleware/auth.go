@@ -1,15 +1,22 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
+	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/service/redis_service"
+	"github.com/Xavier-Tse/lunar-gate/utils"
 	"github.com/Xavier-Tse/lunar-gate/utils/jwts"
+	"github.com/gin-gonic/gin"
 	"strings"
 )
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if utils.InList(global.Config.WhiteRouter, c.Request.URL.Path) {
+			c.Next()
+			return
+		}
+
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
 			c.Abort()
