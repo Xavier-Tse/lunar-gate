@@ -29,10 +29,17 @@ func Run() {
 	}
 	switch FlagOptions.Menu {
 	case "user":
-		var u User
+		var u user
 		switch FlagOptions.Type {
 		case "create":
 			u.Create()
+			os.Exit(0)
+		}
+	case "role":
+		var r role
+		switch FlagOptions.Type {
+		case "init":
+			r.Init()
 			os.Exit(0)
 		}
 	}

@@ -10,10 +10,10 @@ import (
 	"os"
 )
 
-type User struct {
+type user struct {
 }
 
-func (User) Create() {
+func (user) Create() {
 	fmt.Println("请输入用户名")
 	var username string
 	fmt.Scanln(&username)
