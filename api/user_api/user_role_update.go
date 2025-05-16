@@ -55,18 +55,13 @@ func (UserApi) UserRoleUpdate(c *gin.Context) {
 				UserID: cr.UserID,
 				RoleID: i2,
 			})
-			global.Casbin.AddRoleForUser(fmt.Sprintf("%d", cr.UserID), fmt.Sprintf("%d", i2))
 		}
 		global.DB.Create(&addUserRoleList)
-
 	}
 
 	if len(removeList) > 0 {
 		var removeUserRoleList []model.UserRole
 		global.DB.Find(&removeUserRoleList, "user_id = ? and role_id in ?", cr.UserID, removeList)
-		for _, i2 := range removeUserRoleList {
-			global.Casbin.RemoveGroupingPolicy(fmt.Sprintf("%d", cr.UserID), fmt.Sprintf("%d", i2.RoleID))
-		}
 		global.DB.Delete(&removeUserRoleList)
 	}
 	msg := fmt.Sprintf("新增角色 %d 个，删除角色 %d 个", len(addList), len(removeList))

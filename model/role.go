@@ -22,7 +22,8 @@ func (r Role) BeforeDelete(tx *gorm.DB) error {
 	err = tx.Find(&roleUserList, "role_id = ?", r.ID).Delete(&roleUserList).Error
 	logrus.Infof("删除角色用户 %d 条", len(roleUserList))
 
-	// TODO: casbin删除角色记录
-
+	var roleApiList []UserRole
+	err = tx.Find(&roleApiList, "role_id = ?", r.ID).Delete(&roleApiList).Error
+	logrus.Infof("删除角色Api %d 条", len(roleApiList))
 	return err
 }
