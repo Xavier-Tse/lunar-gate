@@ -10,4 +10,5 @@ func PermissionRouter(g *gin.RouterGroup) {
 	app := api.App.PermissionApi
 	r.PUT("api", app.RoleApiPermission)
 	r.PUT("menu", app.RoleMenuPermission)
+	r.GET("tree", app.RoleMenuTree)
 }
