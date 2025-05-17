@@ -24,6 +24,7 @@ router:
     - /api/email/send
     - /api/user/login
     - /api/user/register
+    - /api/site/site
 info:
   site:
     title:

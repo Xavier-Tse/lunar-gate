@@ -7,17 +7,17 @@ type Info struct {
 }
 
 type Site struct {
-	Title   string `yaml:"title"`
-	EnTitle string `yaml:"en_title"`
-	Slogan  string `yaml:"slogan"`
-	Logo    string `yaml:"logo"`
-	Icp     string `yaml:"icp"`
+	Title   string `yaml:"title" json:"title"`
+	EnTitle string `yaml:"en_title" json:"enTitle"`
+	Slogan  string `yaml:"slogan" json:"slogan"`
+	Logo    string `yaml:"logo" json:"logo"`
+	Icp     string `yaml:"icp" json:"icp"`
 }
 
 type Project struct {
-	Title string `yaml:"title"`
-	Icon  string `yaml:"icon"`
-	Path  string `yaml:"path"`
+	Title string `yaml:"title" json:"title"`
+	Icon  string `yaml:"icon" json:"icon"`
+	Path  string `yaml:"path" json:"path"`
 }
 
 type Login struct {
@@ -26,15 +26,15 @@ type Login struct {
 }
 
 type Captcha struct {
-	Enable bool   `yaml:"enable"`
-	Type   string `yaml:"type"`
+	Enable bool   `yaml:"enable" json:"enable"`
+	Type   string `yaml:"type" json:"type"`
 }
 
 type Email struct {
-	Enable       bool   `yaml:"enable"`
-	Domain       string `yaml:"domain"`
-	Port         int    `yaml:"port"`
-	SendEmail    string `yaml:"send_email"`
-	AuthCode     string `yaml:"auth_code"`
-	SendNickname string `yaml:"send_nickname"`
+	Enable       bool   `yaml:"enable" json:"enable"`
+	Domain       string `yaml:"domain" json:"domain"`
+	Port         int    `yaml:"port" json:"port"`
+	SendEmail    string `yaml:"send_email" json:"sendEmail"`
+	AuthCode     string `yaml:"auth_code" json:"authCode"`
+	SendNickname string `yaml:"send_nickname" json:"sendNickname"`
 }

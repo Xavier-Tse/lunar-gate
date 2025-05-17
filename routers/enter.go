@@ -24,6 +24,7 @@ func Run() {
 	ApiRouter(g)
 	PermissionRouter(g)
 	DataRouter(g)
+	SiteRouter(g)
 
 	r.Static("/static", "./static")
 
