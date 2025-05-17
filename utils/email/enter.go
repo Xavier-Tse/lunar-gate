@@ -2,14 +2,14 @@ package email
 
 import (
 	"fmt"
-	"github.com/jordan-wright/email"
 	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/jordan-wright/email"
 	"net/smtp"
 	"strings"
 )
 
 func SendEmail(to, subject, text string) error {
-	em := global.Config.Email
+	em := global.Config.Info.Login.Email
 	e := email.NewEmail()
 	e.From = fmt.Sprintf("%s <%s>", em.SendNickname, em.SendEmail)
 	e.To = []string{to}

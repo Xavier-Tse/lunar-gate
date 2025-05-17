@@ -1,11 +1,10 @@
 package config
 
 type Config struct {
-	System  `yaml:"system"`
-	DB      `yaml:"db"`
-	Redis   `yaml:"redis"`
-	Jwt     `yaml:"jwt"`
-	Captcha `yaml:"captcha"`
-	Email   `yaml:"email"`
-	Router  `yaml:"router"`
+	System `yaml:"system"`
+	DB     `yaml:"db"`
+	Redis  `yaml:"redis"`
+	Jwt    `yaml:"jwt"`
+	Router `yaml:"router"`
+	Info   `yaml:"info"`
 }

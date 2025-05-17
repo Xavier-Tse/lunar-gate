@@ -18,19 +18,31 @@ jwt:
   expires:
   issuer:
   secret:
-captcha:
-  enable:
-  type:     # string math
-email:
-  enable:
-  domain:
-  port:
-  send_email:
-  auth_code:
-  send_nickname:
 router:
   white_router:
     - /api/captcha/generate
     - /api/email/send
     - /api/user/login
     - /api/user/register
+info:
+  site:
+    title:
+    en_title:
+    slogan:
+    logo:
+    icp:
+  project:
+    title:
+    icon:
+    path:
+  login:
+    captcha:
+      enable:
+      type:     # string math
+    email:
+      enable:
+      domain:
+      port:
+      send_email:
+      auth_code:
+      send_nickname:

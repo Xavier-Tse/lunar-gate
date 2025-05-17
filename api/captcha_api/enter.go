@@ -1,10 +1,10 @@
 package captcha_api
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/utils/captcha"
+	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"github.com/sirupsen/logrus"
 )
@@ -19,7 +19,7 @@ type GenerateCaptchaResponse struct {
 
 func (CaptchaApi) Generate(c *gin.Context) {
 	var driver base64Captcha.Driver
-	switch global.Config.Captcha.Type {
+	switch global.Config.Info.Login.Captcha.Type {
 	case "string":
 		driver = stringCaptcha()
 	case "math":

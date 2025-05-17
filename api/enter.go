@@ -8,6 +8,7 @@ import (
 	"github.com/Xavier-Tse/lunar-gate/api/menu_api"
 	"github.com/Xavier-Tse/lunar-gate/api/permission_api"
 	"github.com/Xavier-Tse/lunar-gate/api/role_api"
+	"github.com/Xavier-Tse/lunar-gate/api/site_api"
 	"github.com/Xavier-Tse/lunar-gate/api/user_api"
 )
 
@@ -20,6 +21,7 @@ type Api struct {
 	api_api.ApiApi
 	permission_api.PermissionApi
 	data_api.DataApi
+	site_api.SiteApi
 }
 
 var App = new(Api)
