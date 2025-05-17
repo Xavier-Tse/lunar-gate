@@ -9,4 +9,5 @@ func SiteRouter(g *gin.RouterGroup) {
 	r := g.Group("site")
 	app := api.App.SiteApi
 	r.GET(":name", app.Info)
+	r.PUT("update", app.SiteUpdate)
 }
