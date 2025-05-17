@@ -2,6 +2,7 @@ package user_api
 
 import (
 	"github.com/Xavier-Tse/lunar-gate/common/res"
+	"github.com/Xavier-Tse/lunar-gate/core"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
 	"github.com/Xavier-Tse/lunar-gate/utils/captcha"
@@ -69,11 +70,12 @@ func (UserApi) Login(c *gin.Context) {
 	}
 
 	ip := c.ClientIP()
+	addr := core.GetIpAddr(ip)
 	ua := c.Request.UserAgent()
 	global.DB.Create(&model.UserLogin{
 		UserID: user.ID,
 		IP:     ip,
-		Addr:   "",
+		Addr:   addr,
 		UA:     ua,
 	})
 

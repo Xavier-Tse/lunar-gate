@@ -11,6 +11,7 @@ func main() {
 	core.InitLogger()
 	global.Config = core.ReadConfig()
 	global.DB = core.InitGorm()
+	core.InitIPDB()
 	global.Casbin = core.InitCasbin()
 	global.Redis = core.InitRedis()
 
