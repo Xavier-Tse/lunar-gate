@@ -23,6 +23,7 @@ func Run() {
 	RoleRouter(g)
 	ApiRouter(g)
 	PermissionRouter(g)
+	DataRouter(g)
 
 	r.Static("/static", "./static")
 

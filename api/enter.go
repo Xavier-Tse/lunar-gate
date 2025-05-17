@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/Xavier-Tse/lunar-gate/api/api_api"
 	"github.com/Xavier-Tse/lunar-gate/api/captcha_api"
+	"github.com/Xavier-Tse/lunar-gate/api/data_api"
 	"github.com/Xavier-Tse/lunar-gate/api/email_api"
 	"github.com/Xavier-Tse/lunar-gate/api/menu_api"
 	"github.com/Xavier-Tse/lunar-gate/api/permission_api"
@@ -18,6 +19,7 @@ type Api struct {
 	role_api.RoleApi
 	api_api.ApiApi
 	permission_api.PermissionApi
+	data_api.DataApi
 }
 
 var App = new(Api)

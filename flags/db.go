@@ -1,9 +1,9 @@
 package flags
 
 import (
-	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
+	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/sirupsen/logrus"
 )
 
@@ -15,6 +15,7 @@ func AutoMigrate() {
 		&model.RoleApi{},
 		&model.RoleMenu{},
 		&model.User{},
+		&model.UserLogin{},
 		&model.UserRole{},
 		&gormadapter.CasbinRule{},
 	); err != nil {

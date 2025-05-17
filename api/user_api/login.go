@@ -68,6 +68,15 @@ func (UserApi) Login(c *gin.Context) {
 		return
 	}
 
+	ip := c.ClientIP()
+	ua := c.Request.UserAgent()
+	global.DB.Create(&model.UserLogin{
+		UserID: user.ID,
+		IP:     ip,
+		Addr:   "",
+		UA:     ua,
+	})
+
 	res.OkWithData(LoginResponse{
 		Token: token,
 	}, c)
