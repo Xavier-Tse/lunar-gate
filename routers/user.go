@@ -9,6 +9,7 @@ func UserRouter(g *gin.RouterGroup) {
 	r := g.Group("user")
 	app := api.App.UserApi
 	r.POST("login", app.Login)
+	r.POST("logout", app.Logout)
 	r.POST("register", app.Register)
 	r.PUT("password", app.UpdatePassword)
 	r.PUT("info", app.UpdateUserinfo)
