@@ -19,9 +19,12 @@ func Auth() gin.HandlerFunc {
 
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
-			c.Abort()
-			res.FailWithMessage("请登陆", c)
-			return
+			authHeader = c.Query("Authorization")
+			if authHeader == "" {
+				c.Abort()
+				res.FailWithMessage("请登陆", c)
+				return
+			}
 		}
 
 		if !strings.HasPrefix(authHeader, "Bearer ") {

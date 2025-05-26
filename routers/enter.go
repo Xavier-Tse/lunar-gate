@@ -25,6 +25,7 @@ func Run() {
 	PermissionRouter(g)
 	DataRouter(g)
 	SiteRouter(g)
+	WsRouter(g)
 
 	r.Static("/static", "./static")
 
