@@ -30,7 +30,7 @@ func (UserApi) Login(c *gin.Context) {
 		return
 	}
 
-	if global.Config.Captcha.Enable {
+	if global.Config.Info.Login.Captcha.Enable {
 		if cr.CaptchaID == "" || cr.CaptchaCode == "" {
 			res.FailWithMessage("请输入验证码内容", c)
 			return

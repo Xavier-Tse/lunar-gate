@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (SiteApi) SiteUpdate(c *gin.Context) {
+func (SiteApi) Update(c *gin.Context) {
 	name := c.Param("name")
 	switch name {
 	case "site":
@@ -18,7 +18,23 @@ func (SiteApi) SiteUpdate(c *gin.Context) {
 			res.FailBinding(err, c)
 			return
 		}
-		global.Config.Site = cr
+		global.Config.Info.Site = cr
+	case "project":
+		var cr config.Project
+		err := c.ShouldBindJSON(&cr)
+		if err != nil {
+			res.FailBinding(err, c)
+			return
+		}
+		global.Config.Info.Project = cr
+	case "captcha":
+		var cr config.Captcha
+		err := c.ShouldBindJSON(&cr)
+		if err != nil {
+			res.FailBinding(err, c)
+			return
+		}
+		global.Config.Info.Login.Captcha = cr
 	case "email":
 		var cr config.Email
 		err := c.ShouldBindJSON(&cr)
@@ -27,9 +43,9 @@ func (SiteApi) SiteUpdate(c *gin.Context) {
 			return
 		}
 		if cr.AuthCode == "******" {
-			cr.AuthCode = global.Config.Email.AuthCode
+			cr.AuthCode = global.Config.Info.Login.Email.AuthCode
 		}
-		global.Config.Email = cr
+		global.Config.Info.Login.Email = cr
 	case "jwt":
 		var cr config.Jwt
 		err := c.ShouldBindJSON(&cr)

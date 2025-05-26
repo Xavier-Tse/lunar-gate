@@ -2,13 +2,13 @@ package email_api
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/utils/captcha"
 	"github.com/Xavier-Tse/lunar-gate/utils/email"
 	"github.com/Xavier-Tse/lunar-gate/utils/random"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 )
 
@@ -31,12 +31,12 @@ func (EmailApi) Send(c *gin.Context) {
 		return
 	}
 
-	if !global.Config.Email.Enable {
+	if !global.Config.Info.Login.Email.Enable {
 		res.FailWithMessage("管理员未配置邮箱，暂无法注册", c)
 		return
 	}
 
-	if global.Config.Captcha.Enable {
+	if global.Config.Info.Login.Captcha.Enable {
 		if cr.CaptchaID == "" || cr.CaptchaCode == "" {
 			res.FailWithMessage("请输入图片验证码", c)
 			return

@@ -12,7 +12,7 @@ import (
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if utils.InList(global.Config.WhiteRouter, c.Request.URL.Path) {
+		if utils.InList(global.Config.Router.WhiteRouter, c.Request.URL.Path) {
 			c.Next()
 			return
 		}

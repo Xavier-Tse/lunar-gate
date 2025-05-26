@@ -16,8 +16,12 @@ func (SiteApi) Info(c *gin.Context) {
 	switch name {
 	case "site":
 		data = global.Config.Info.Site
+	case "project":
+		data = global.Config.Info.Project
+	case "captcha":
+		data = global.Config.Info.Login.Captcha
 	case "email":
-		d := global.Config.Info.Email
+		d := global.Config.Info.Login.Email
 		d.AuthCode = "******"
 		data = d
 	case "jwt":
