@@ -3,6 +3,7 @@ package core
 import (
 	"bytes"
 	"fmt"
+	"github.com/Xavier-Tse/lunar-gate/api/ws_api"
 	"github.com/sirupsen/logrus"
 	"os"
 	"path"
@@ -66,6 +67,7 @@ func (hook *MyHook) Fire(entry *logrus.Entry) error {
 
 	timer := entry.Time.Format("2006-01-02")
 	line, err := entry.String()
+	ws_api.SendLogMsg(line)
 	if err != nil {
 		return fmt.Errorf("failed to format log entry: %v", err)
 	}

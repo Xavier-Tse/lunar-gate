@@ -1,16 +1,49 @@
 package routers
 
 import (
+	"fmt"
+	"github.com/Xavier-Tse/lunar-gate/api/ws_api"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"time"
 )
+
+// defaultLogFormatter is the default log format function Logger middleware uses.
+var defaultLogFormatter = func(param gin.LogFormatterParams) string {
+	var statusColor, methodColor, resetColor string
+	if param.IsOutputColor() {
+		statusColor = param.StatusCodeColor()
+		methodColor = param.MethodColor()
+		resetColor = param.ResetColor()
+	}
+
+	if param.Latency > time.Minute {
+		param.Latency = param.Latency.Truncate(time.Second)
+	}
+	msg := fmt.Sprintf("[GIN] %v |%s %3d %s| %13v | %15s |%s %-7s %s %#v\n%s",
+		param.TimeStamp.Format("2006/01/02 - 15:04:05"),
+		statusColor, param.StatusCode, resetColor,
+		param.Latency,
+		param.ClientIP,
+		methodColor, param.Method, resetColor,
+		param.Path,
+		param.ErrorMessage,
+	)
+	ws_api.SendLogMsg(msg)
+	return msg
+}
 
 func Run() {
 	s := global.Config.System
 	gin.SetMode(s.Mode)
 	r := gin.Default()
+
+	r.Use(gin.Recovery(), gin.LoggerWithConfig(gin.LoggerConfig{
+		Formatter: defaultLogFormatter,
+	}))
+
 	g := r.Group("api")
 
 	g.Use(middleware.Auth())

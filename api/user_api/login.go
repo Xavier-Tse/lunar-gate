@@ -79,6 +79,8 @@ func (UserApi) Login(c *gin.Context) {
 		UA:     ua,
 	})
 
+	logrus.Infof("用户 %s 登陆成功, IP: %s, 地址: %s, UA: %s", user.Username, ip, addr, ua)
+
 	res.OkWithData(LoginResponse{
 		Token: token,
 	}, c)
