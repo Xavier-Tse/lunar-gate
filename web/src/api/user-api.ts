@@ -25,3 +25,17 @@ export interface userInfoResponse {
 export function userInfoApi(): Promise<baseResponse<userInfoResponse>> {
   return useAxios.get("/api/user/info")
 }
+
+export interface userRegisterRequest {
+  email: string
+  emailCode: string
+  emailID: string
+  password: string
+  rePassword: string
+  captcha: string
+  captchaID: string
+}
+
+export function userRegisterApi(data: userRegisterRequest): Promise<baseResponse<string>> {
+  return useAxios.post("/api/user/register", data)
+}

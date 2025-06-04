@@ -2,12 +2,12 @@ package user_api
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
 	"github.com/Xavier-Tse/lunar-gate/utils/email"
 	"github.com/Xavier-Tse/lunar-gate/utils/pwd"
+	"github.com/gin-gonic/gin"
 )
 
 type RegisterRequest struct {
@@ -22,6 +22,7 @@ func (UserApi) Register(c *gin.Context) {
 	var cr RegisterRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)
+		fmt.Println(cr)
 		return
 	}
 
