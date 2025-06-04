@@ -24,7 +24,14 @@ router:
     - /api/email/send
     - /api/user/login
     - /api/user/register
-    - /api/site/site
+    - /api/site/info
+email:
+  enable:
+  domain:
+  port:
+  send_email:
+  auth_code:
+  send_nickname:
 info:
   site:
     title:
@@ -40,10 +47,3 @@ info:
     captcha:
       enable:
       type:     # string math
-    email:
-      enable:
-      domain:
-      port:
-      send_email:
-      auth_code:
-      send_nickname:

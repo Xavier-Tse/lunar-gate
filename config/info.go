@@ -1,9 +1,9 @@
 package config
 
 type Info struct {
-	Site    `yaml:"site"`
-	Project `yaml:"project"`
-	Login   `yaml:"login"`
+	Site    `yaml:"site" json:"site"`
+	Project `yaml:"project" json:"project"`
+	Login   `yaml:"login" json:"login"`
 }
 
 type Site struct {
@@ -21,20 +21,10 @@ type Project struct {
 }
 
 type Login struct {
-	Captcha `yaml:"captcha"`
-	Email   `yaml:"email"`
+	Captcha `yaml:"captcha" json:"captcha"`
 }
 
 type Captcha struct {
 	Enable bool   `yaml:"enable" json:"enable"`
 	Type   string `yaml:"type" json:"type"`
-}
-
-type Email struct {
-	Enable       bool   `yaml:"enable" json:"enable"`
-	Domain       string `yaml:"domain" json:"domain"`
-	Port         int    `yaml:"port" json:"port"`
-	SendEmail    string `yaml:"send_email" json:"sendEmail"`
-	AuthCode     string `yaml:"auth_code" json:"authCode"`
-	SendNickname string `yaml:"send_nickname" json:"sendNickname"`
 }

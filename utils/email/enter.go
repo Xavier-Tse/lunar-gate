@@ -9,7 +9,7 @@ import (
 )
 
 func SendEmail(to, subject, text string) error {
-	em := global.Config.Info.Login.Email
+	em := global.Config.Email
 	e := email.NewEmail()
 	e.From = fmt.Sprintf("%s <%s>", em.SendNickname, em.SendEmail)
 	e.To = []string{to}

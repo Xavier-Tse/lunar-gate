@@ -38,8 +38,10 @@ var defaultLogFormatter = func(param gin.LogFormatterParams) string {
 func Run() {
 	s := global.Config.System
 	gin.SetMode(s.Mode)
-	r := gin.Default()
+	// 修改为gin.New()以避免默认的Logger中间件
+	r := gin.New()
 
+	// 使用自定义日志格式器并添加Recovery中间件
 	r.Use(gin.Recovery(), gin.LoggerWithConfig(gin.LoggerConfig{
 		Formatter: defaultLogFormatter,
 	}))
@@ -48,7 +50,7 @@ func Run() {
 
 	g.Use(middleware.Auth())
 	g.Use(middleware.Permission())
-	g.Use(middleware.Cors())
+	//g.Use(middleware.Cors())
 
 	UserRouter(g)
 	CaptchaRouter(g)

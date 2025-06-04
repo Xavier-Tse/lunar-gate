@@ -6,5 +6,6 @@ type Config struct {
 	Redis  `yaml:"redis"`
 	Jwt    `yaml:"jwt"`
 	Router `yaml:"router"`
+	Email  `yaml:"email"`
 	Info   `yaml:"info"`
 }

@@ -15,7 +15,7 @@ import (
 func (SiteApi) Update(c *gin.Context) {
 	name := c.Param("name")
 	switch name {
-	case "site":
+	case "info":
 		var cr config.Site
 		err := c.ShouldBindJSON(&cr)
 		if err != nil {
@@ -51,9 +51,9 @@ func (SiteApi) Update(c *gin.Context) {
 			return
 		}
 		if cr.AuthCode == "******" {
-			cr.AuthCode = global.Config.Info.Login.Email.AuthCode
+			cr.AuthCode = global.Config.Email.AuthCode
 		}
-		global.Config.Info.Login.Email = cr
+		global.Config.Email = cr
 	case "jwt":
 		var cr config.Jwt
 		err := c.ShouldBindJSON(&cr)

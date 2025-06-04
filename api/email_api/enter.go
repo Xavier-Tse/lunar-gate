@@ -31,7 +31,7 @@ func (EmailApi) Send(c *gin.Context) {
 		return
 	}
 
-	if !global.Config.Info.Login.Email.Enable {
+	if !global.Config.Email.Enable {
 		res.FailWithMessage("管理员未配置邮箱，暂无法注册", c)
 		return
 	}

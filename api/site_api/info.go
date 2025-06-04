@@ -7,21 +7,17 @@ import (
 )
 
 func (SiteApi) Info(c *gin.Context) {
-	// /api/site/site
+	// /api/site/info
 	// /api/site/email
 	// /api/site/jwt
 
 	name := c.Param("name")
 	var data any
 	switch name {
-	case "site":
-		data = global.Config.Info.Site
-	case "project":
-		data = global.Config.Info.Project
-	case "captcha":
-		data = global.Config.Info.Login.Captcha
+	case "info":
+		data = global.Config.Info
 	case "email":
-		d := global.Config.Info.Login.Email
+		d := global.Config.Email
 		d.AuthCode = "******"
 		data = d
 	case "jwt":
