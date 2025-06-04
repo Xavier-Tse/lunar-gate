@@ -48,6 +48,7 @@ func Run() {
 
 	g.Use(middleware.Auth())
 	g.Use(middleware.Permission())
+	g.Use(middleware.Cors())
 
 	UserRouter(g)
 	CaptchaRouter(g)
