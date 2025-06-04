@@ -4,6 +4,7 @@ import { useStore } from './stores';
 
 const store = useStore()
 store.loadUser()
+store.getSiteInfo()
 </script>
 
 <template>

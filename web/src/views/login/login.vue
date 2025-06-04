@@ -49,7 +49,7 @@ function handleCaptchaChange(captchaID: string) {
         <a-form-item label="密码" field="password" :rules="[{ required: true, message: '请输入密码' }]" validate-trigger="blur">
           <a-input-password size="large" v-model="form.password" placeholder="密码" />
         </a-form-item>
-        <a-form-item label="验证码" field="captchaCode" :rules="[{ required: true, message: '请输入验证码' }]" validate-trigger="blur">
+        <a-form-item v-if="store.siteInfo.login.captcha.enable" label="验证码" field="captchaCode" :rules="[{ required: true, message: '请输入验证码' }]" validate-trigger="blur">
           <a-input size="large" v-model="form.captchaCode" placeholder="验证码" />
           <lunar-captcha ref="captchaRef" :on-captcha-change="handleCaptchaChange" />
         </a-form-item>

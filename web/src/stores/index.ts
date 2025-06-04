@@ -1,3 +1,4 @@
+import { siteInfoApi, type siteInfoResponse } from '@/api/site-api'
 import { userInfoApi } from '@/api/user-api'
 import { Message } from '@arco-design/web-vue'
 import { defineStore } from 'pinia'
@@ -10,6 +11,7 @@ interface IUserStoreType {
     nickname: string
     avatar: string
   }
+  siteInfo: siteInfoResponse
 }
 
 export const useStore = defineStore('useStore', {
@@ -21,6 +23,26 @@ export const useStore = defineStore('useStore', {
         roleList: [],
         nickname: '',
         avatar: '',
+      },
+      siteInfo: {
+        "site": {
+          title: "tit",
+          enTitle: "entit",
+          slogan: "slo",
+          logo: "lo",
+          icp: "1a",
+        },
+        "project": {
+          title: "",
+          icon: "",
+          path: "",
+        },
+        "login": {
+          captcha: {
+            enable: false,
+            type: "math",
+          }
+        }
       }
     }
   },
@@ -52,5 +74,13 @@ export const useStore = defineStore('useStore', {
         localStorage.removeItem('lunar-gate-userInfo')
       }
     },
+    async getSiteInfo() {
+      const res = await siteInfoApi()
+      if (res.code) {
+        Message.error(res.message)
+        return
+      }
+      this.siteInfo = res.data as any
+    }
   }
 })
