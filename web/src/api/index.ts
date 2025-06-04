@@ -1,13 +1,15 @@
 import axios from "axios";
 import { Message } from "@arco-design/web-vue";
+import { useStore } from "@/stores";
 
 export const useAxios = axios.create({
   timeout: 6000,
   baseURL: "",
 })
 
+const store = useStore()
 useAxios.interceptors.request.use((config) => {
-  config.headers.set("Authorization", "Bearer " + localStorage.getItem("token"))
+  config.headers.set("Authorization", "Bearer " + store.userInfo.token)
   return config
 })
 
