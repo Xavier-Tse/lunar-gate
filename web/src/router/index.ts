@@ -11,6 +11,23 @@ const router = createRouter({
       component: () => import('../views/web/index.vue'),
     },
     {
+      path: '/auth',
+      name: 'loginBase',
+      component: () => import('../views/login/index.vue'),
+      children: [
+        {
+          path: '/login',
+          name: 'login',
+          component: () => import('../views/login/login.vue'),
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: () => import('../views/login/register.vue'),
+        },
+      ],
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: () => import('../views/admin/index.vue'),
@@ -53,7 +70,7 @@ const router = createRouter({
         },
         {
           path: "/:all(.*)",
-          component: ()=> import('../views/admin/404.vue'),
+          component: () => import('../views/admin/404.vue'),
         }
       ],
     },
