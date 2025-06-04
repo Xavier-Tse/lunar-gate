@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import LunarCaptcha from '@/components/input/lunar-captcha.vue'
 import { useStore } from '@/stores'
-import { Message, type FormInstance } from '@arco-design/web-vue'
+import { Countdown, Message, type FormInstance } from '@arco-design/web-vue'
 import { emailSendApi } from '@/api/email-api'
 import { userRegisterApi } from '@/api/user-api'
 import router from '@/router'
@@ -45,6 +45,15 @@ async function handleSendEmail() {
     return
   }
   form.emailID = res.data!.emailID
+  disable.value = true
+  countDown.value = 60
+  timer.value = setInterval(() => {
+    countDown.value--
+    if (countDown.value <= 0) {
+      clearInterval(timer.value as number)
+      disable.value = false
+    }
+  }, 1000)
 }
 
 async function handleRegister() {
@@ -56,6 +65,10 @@ async function handleRegister() {
   Message.success(res.message)
   router.push({ name: 'login' })
 }
+
+const disable = ref(false)
+const countDown = ref(60)
+const timer = ref<null | number>(null)
 </script>
 
 <template>
@@ -71,7 +84,9 @@ async function handleRegister() {
         </a-form-item>
         <a-form-item label="邮箱验证码" field="emailCode" validate-trigger="blur" :rules="[{ required: true, message: '请输入邮箱验证码' }]">
           <a-input v-model="form.emailCode" placeholder="邮箱验证码" />
-          <a-button type="primary" style="margin-left: 10px;" @click="handleSendEmail">校验邮箱</a-button>
+          <a-button type="primary" style="margin-left: 10px;" @click="handleSendEmail" :disabled="disable">
+            {{ disable ? `${countDown}秒后可重发` : '发送验证码' }}
+          </a-button>
         </a-form-item>
         <a-form-item label="密码" field="password" validate-trigger="blur" :rules="[{ required: true, message: '请输入密码' }]">
           <a-input-password v-model="form.password" placeholder="密码" />
