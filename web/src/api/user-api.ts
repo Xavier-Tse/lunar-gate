@@ -11,6 +11,17 @@ export interface userLoginResponse {
   token: string
 }
 
-export function userLogin(data: userLoginRequest): Promise<baseResponse<userLoginResponse>> {
+export function userLoginApi(data: userLoginRequest): Promise<baseResponse<userLoginResponse>> {
   return useAxios.post("/api/user/login", data)
+}
+
+export interface userInfoResponse {
+  userID: number
+  nickname: string
+  avatar: string
+  roleList?: number[]
+}
+
+export function userInfoApi(): Promise<baseResponse<userInfoResponse>> {
+  return useAxios.get("/api/user/info")
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { userLogin, type userLoginRequest } from '@/api/user-api';
+import { userLoginApi, type userLoginRequest } from '@/api/user-api';
+import router from '@/router';
 import { useStore } from '@/stores';
 import { Message, type FormInstance } from '@arco-design/web-vue';
 import { reactive, ref } from 'vue';
@@ -19,13 +20,14 @@ async function handleLogin() {
   if (!val) {
     return
   }
-  const res = await userLogin(form)
+  const res = await userLoginApi(form)
   if (res.code) {
     Message.error(res.message)
     return
   }
   Message.success(res.message)
   store.saveUser(res.data!.token)
+  router.push({ name: 'data' })
 }
 </script>
 

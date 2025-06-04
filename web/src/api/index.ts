@@ -7,8 +7,8 @@ export const useAxios = axios.create({
   baseURL: "",
 })
 
-const store = useStore()
 useAxios.interceptors.request.use((config) => {
+  const store = useStore()
   config.headers.set("Authorization", "Bearer " + store.userInfo.token)
   return config
 })
