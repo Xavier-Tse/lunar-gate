@@ -30,7 +30,7 @@ async function handleLogin() {
     return
   }
   Message.success(res.message)
-  store.saveUser(res.data!.token)
+  await store.saveUser(res.data!.token)
   router.push({ name: 'data' })
 }
 

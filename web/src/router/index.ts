@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { useStore } from '@/stores'
+import { Message } from '@arco-design/web-vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +35,7 @@ const router = createRouter({
       component: () => import('../views/admin/index.vue'),
       meta: {
         title: '首页',
+        isLogin: true,
       },
       children: [
         {
@@ -80,6 +83,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();//开启进度条
+  if (to.meta.isLogin) {
+    const store = useStore()
+    if (store.userInfo.userID === 0) {
+      Message.warning('请登录')
+      router.push({ name: 'login' })
+      return
+    }
+  }
   next()
 })
 //当路由进入后：关闭进度条
