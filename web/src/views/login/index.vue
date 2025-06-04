@@ -41,20 +41,8 @@
 
         .ant-input,
         .ant-input-password {
-          height: 40px;
+          height: 36px;
           border-radius: 6px;
-        }
-
-        img {
-          height: 40px;
-          margin-left: 12px;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: opacity 0.3s;
-
-          &:hover {
-            opacity: 0.8;
-          }
         }
       }
 

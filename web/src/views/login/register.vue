@@ -1,17 +1,31 @@
 <script setup lang="ts">
+import { reactive } from 'vue'
+import LunarCaptcha from '@/components/input/lunar-captcha.vue'
 
+const form = reactive({
+  email: '',
+  captchaCode: '',
+  captchaID: '',
+  emailCode: '',
+  password: '',
+  confirmPassword: ''
+})
+
+function handleCaptchaChange(captchaID: string) {
+  form.captchaID = captchaID
+}
 </script>
 
 <template>
   <div>
     <div class="title">用户注册</div>
-      <a-form :label-col-props="{span: 7}" :wrapper-col-props="{span: 17}">
-        <a-form-item label="邮箱">
-          <a-input placeholder="邮箱" />
+      <a-form :model="form" :label-col-props="{span: 7}" :wrapper-col-props="{span: 17}">
+        <a-form-item label="邮箱" field="email" :rules="[{ required: true, message: '请输入邮箱' }]">
+          <a-input v-model="form.email" placeholder="邮箱" />
         </a-form-item>
-        <a-form-item label="图形验证码">
-          <a-input placeholder="图形验证码" />
-          <img src="https://example.com/xxx.png" />
+        <a-form-item label="图形验证码" field="captchaCode" :rules="[{ required: true, message: '请输入图形验证码' }]">
+          <a-input v-model="form.captchaCode" placeholder="图形验证码" />
+          <lunar-captcha :on-captcha-change="handleCaptchaChange" />
         </a-form-item>
         <a-form-item label="邮箱验证码">
           <a-input placeholder="邮箱验证码" />
