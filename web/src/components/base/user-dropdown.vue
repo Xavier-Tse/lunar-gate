@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useStore } from "@/stores";
 import {Message} from "@arco-design/web-vue";
 import {useRouter} from "vue-router";
 
 const router = useRouter()
+const store = useStore()
 
 function handleSelect(val: string) {
   if (val === "logout"){
@@ -16,8 +18,8 @@ function handleSelect(val: string) {
 <template>
   <a-dropdown @select="handleSelect">
     <span class="user-dropdown" >
-      <a-avatar :size="35">X</a-avatar>
-      <span>xaviertse</span>
+      <a-avatar :size="35" :image-url="store.userInfo.avatar" />
+      <span>{{ store.userInfo.nickname }}</span>
       <icon-down />
     </span>
     <template #content>

@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import { useStore } from '@/stores';
 
+const store = useStore()
 </script>
 
 <template>
   <div class="lunar-logo">
     <div class="left">
-      <img src="https://avatars.githubusercontent.com/u/201599432?s=200&v=4" alt="" />
+      <img :src="store.siteInfo.site.logo" alt="logo" />
     </div>
     <div class="right">
-      <div>后台管理系统</div>
-      <div>developed by XavierTse</div>
+      <div>{{ store.siteInfo.site.title }}</div>
+      <div>{{ store.siteInfo.site.enTitle }}</div>
     </div>
   </div>
 </template>

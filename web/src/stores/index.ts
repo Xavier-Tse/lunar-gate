@@ -1,5 +1,7 @@
 import { siteInfoApi, type siteInfoResponse } from '@/api/site-api'
 import { userInfoApi } from '@/api/user-api'
+import router from '@/router'
+import { parseJwt } from '@/utils/jwt'
 import { Message } from '@arco-design/web-vue'
 import { defineStore } from 'pinia'
 
@@ -47,11 +49,22 @@ export const useStore = defineStore('useStore', {
     }
   },
   actions: {
-    async saveUser(token: string) {
-      this.userInfo.token = token
+    async saveUser(token?: string) {
+      if (token) {
+        this.userInfo.token = token
+      }
       const res = await userInfoApi()
       if (res.code) {
         Message.error(res.message)
+        localStorage.removeItem('lunar-gate-userInfo')
+        this.userInfo = {
+          token: '',
+          userID: 0,
+          roleList: [],
+          nickname: '',
+          avatar: '',
+        }
+        router.push({ name: 'login' })
         return
       }
 
@@ -60,7 +73,7 @@ export const useStore = defineStore('useStore', {
       this.userInfo.nickname = res.data!.nickname
       this.userInfo.roleList = res.data!.roleList
 
-      localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
+      localStorage.setItem('lunar-gate-userInfo', JSON.stringify(this.userInfo))
     },
     loadUser() {
       const item = localStorage.getItem('lunar-gate-userInfo')
@@ -73,6 +86,25 @@ export const useStore = defineStore('useStore', {
         Message.error('用户信息读取失败')
         localStorage.removeItem('lunar-gate-userInfo')
       }
+
+      const info = parseJwt(this.userInfo.token)
+      const exp = info.exp * 1000
+      const now = new Date().getTime()
+      if (exp < now) {
+        Message.warning('登录已过期，请重新登录')
+        localStorage.removeItem('lunar-gate-userInfo')
+        this.userInfo = {
+          token: '',
+          userID: 0,
+          roleList: [],
+          nickname: '',
+          avatar: '',
+        }
+        router.push({ name: 'login' })
+        return
+      }
+
+      this.saveUser()
     },
     async getSiteInfo() {
       const res = await siteInfoApi()

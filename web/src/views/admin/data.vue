@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import LunarCard from '@/components/base/lunar-card.vue';
 import LunarPointTitle from '@/components/base/lunar-point-title.vue';
+import { useStore } from '@/stores';
 
-
+const store = useStore()
 </script>
 
 <template>
   <div class="data-view">
     <div class="left">
       <div class="sector greeting">
-        <div>早安，${username}，请开始一天的工作吧。</div>
+        <div>早安，{{ store.userInfo.nickname }}，请开始一天的工作吧。</div>
         <div>lunar admin vue后台管理系统</div>
         <div class="data">
           <span>用户总数：114514</span>
