@@ -48,10 +48,10 @@ func List[T any](model T, option Option) (list []T, count int64, err error) {
 		option.Page.Sort = "created_at desc"
 	}
 
+	baseDB.Model(model).Count(&count)
 	baseDB.Limit(option.Page.Limit).Offset(offset).Order(option.Page.Sort).Find(&list)
 	if option.Callback != nil {
 		option.Callback(list)
 	}
-	baseDB.Model(model).Count(&count)
 	return
 }

@@ -62,5 +62,9 @@ export interface userListResponse {
 }
 
 export function userListApi(params?: userListRequest): Promise<baseResponse<listResponse<userListResponse>>> {
-  return useAxios.get('/api/user/list', { params })
+  return useAxios.get('/api/user', { params })
+}
+
+export function userRemoveApi(idList: number[]): Promise<baseResponse<string>> {
+  return useAxios.delete('/api/user', { data: { idList } })
 }

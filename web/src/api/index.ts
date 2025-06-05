@@ -42,3 +42,7 @@ export interface baseParams {
   sort?: string
   key?: string
 }
+
+export function defaultDeleteApi(url: string, idList: number[]): Promise<baseResponse<string>> {
+  return useAxios.delete(url, { data: { idList } })
+}

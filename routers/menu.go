@@ -8,9 +8,9 @@ import (
 func MenuRouter(g *gin.RouterGroup) {
 	r := g.Group("menu")
 	app := api.App.MenuApi
-	r.POST("create", app.Create)
-	r.GET("list", app.List)
+	r.POST("", app.Create)
+	r.GET("", app.List)
 	r.GET("tree", app.Tree)
-	r.PUT("update", app.Update)
-	r.DELETE("remove", app.Remove)
+	r.PUT("", app.Update)
+	r.DELETE("", app.Remove)
 }

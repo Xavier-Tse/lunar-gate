@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { userListApi, type userListResponse } from '@/api/user-api';
+import { userListApi, userRemoveApi, type userListResponse } from '@/api/user-api';
 import LunarList from '@/components/admin/lunar-list.vue';
-import { dateTimeFormat } from '@/utils/date';
+import { Message } from '@arco-design/web-vue';
+import { ref } from 'vue';
+
+const lunarListRef = ref()
 
 const columns = [
   { title: 'ID', dataIndex: 'id' },
@@ -15,10 +18,24 @@ const columns = [
   { title: '操作', slotName: 'action' },
 ];
 
+async function remove (record: userListResponse) {
+  const res = await userRemoveApi([record.id])
+  if (res.code) {
+    Message.error(res.message)
+    return
+  }
+  Message.success('删除成功')
+  lunarListRef.value.getList()
+}
+
+async function removeBatch (idList: number[]) {
+
+}
+
 </script>
 
 <template>
-  <LunarList no-add class="user-list-view" :columns="columns" :url="userListApi">
+  <LunarList ref="lunarListRef" no-add class="user-list-view" :columns="columns" :url="userListApi" @remove="remove" @remove-batch="removeBatch">
     <template #avatar="{record}:{record: userListResponse}">
       <a-avatar :image-url="record.avatar" />
     </template>

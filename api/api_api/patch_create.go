@@ -2,10 +2,10 @@ package api_api
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/gin-gonic/gin"
 )
 
 type apiInfo struct {
@@ -15,12 +15,12 @@ type apiInfo struct {
 	Group  string `json:"group" binding:"required,max=32"`
 }
 
-type PatchCreateRequest struct {
+type BatchCreateRequest struct {
 	List []apiInfo `json:"list" binding:"required,dive"`
 }
 
-func (ApiApi) PatchCreate(c *gin.Context) {
-	var cr PatchCreateRequest
+func (ApiApi) BatchCreate(c *gin.Context) {
+	var cr BatchCreateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)
 		return

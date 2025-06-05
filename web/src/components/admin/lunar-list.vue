@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
 import {Message, type TableColumn} from "@arco-design/web-vue";
-import type { baseParams, baseResponse, listResponse } from "@/api";
+import { defaultDeleteApi, type baseParams, type baseResponse, type listResponse } from "@/api";
 import { dateTimeFormat } from "@/utils/date";
 
 interface actionGroupType {
@@ -12,7 +12,7 @@ interface actionGroupType {
 
 interface Props {
   url: (params?: baseParams) => Promise<baseResponse<listResponse<any>>>
-  columns: TableColumn,
+  columns: TableColumn
   noAdd?: boolean
   noDelete?: boolean
   noEdit?:boolean
@@ -20,6 +20,8 @@ interface Props {
   noPage?: boolean
   noSearch?: boolean
   actionGroup?: actionGroupType[]
+  defaultParams?: Object
+  noDefaultDelete?: boolean
 }
 
 const params = reactive<baseParams>({
@@ -44,6 +46,9 @@ const rowSelection = {
 }
 
 async function getList() {
+  if (props.defaultParams) {
+    Object.assign(params, props.defaultParams)
+  }
   const res = await props.url(params)
   if (res.code) {
     Message.error(res.message)
@@ -62,16 +67,40 @@ function edit(record: any) {
   emits("edit", record)
 }
 
+async function defaultRemove(idList: number[]) {
+  const url =  /\"(.*)\"/.exec(props.url.toString())?.[1] ?? ''
+  const res = await defaultDeleteApi(url, idList)
+  if (res.code){
+    Message.error(res.message)
+    return
+  }
+  Message.success(res.message)
+  getList()
+}
+
 function remove(record: any) {
+  if (!props.noDefaultDelete) {
+    defaultRemove([record.id])
+    return
+  }
   emits("remove", record)
 }
 
 function removeBatch(idList: any[]) {
+  if (!props.noDefaultDelete) {
+    defaultRemove(idList)
+    return
+  }
   emits("removeBatch", idList)
 }
 
 function pageChange() {
-  console.log(params)
+  getList()
+}
+
+async function refresh() {
+  await getList()
+  Message.success("刷新成功")
 }
 
 const actions = ref([
@@ -92,9 +121,14 @@ function actionHandler() {
   const item = actions.value.find((v) => v.value === actionValue.value)
   if (item) {
     item.callback(selectedKeys.value)
-    return;
+    selectedKeys.value = []
+    return
   }
 }
+
+defineExpose({
+  getList,
+})
 </script>
 
 <template>
@@ -103,6 +137,7 @@ function actionHandler() {
       <div class="left">
         <a-button @click="add" v-if="!props.noAdd" type="primary">添加</a-button>
         <a-select
+          allow-clear
           :options="actions"
           v-if="!props.noAction"
           v-model="actionValue"
@@ -115,11 +150,11 @@ function actionHandler() {
           v-if="selectedKeys.length && actionValue"
           @click="actionHandler"
         >执行</a-button>
-        <a-input-search v-model="params.key" v-if="!props.noSearch" class="search" placeholder="搜索" />
+        <a-input-search allow-clear v-model="params.key" v-if="!props.noSearch" class="search" @search="getList" @keydown.enter="getList" placeholder="搜索" />
         <slot name="search_other"></slot>
       </div>
       <div class="refresh">
-        <a-button>
+        <a-button @click="refresh">
           <IconRefresh />
         </a-button>
       </div>
@@ -145,12 +180,9 @@ function actionHandler() {
                         type="primary"
                         @click="edit(data.record)"
                       >编辑</a-button>
-                      <a-button
-                        v-if="!props.noDelete"
-                        type="primary"
-                        @click="remove(data.record)"
-                        status="danger"
-                      >删除</a-button>
+                      <a-popconfirm v-if="!props.noDelete" content="确认删除？" @ok="remove(data.record)">
+                        <a-button type="primary" status="danger">删除</a-button>
+                      </a-popconfirm>
                     </slot>
                   </div>
                 </template>
