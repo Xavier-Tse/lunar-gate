@@ -39,3 +39,7 @@ export interface userRegisterRequest {
 export function userRegisterApi(data: userRegisterRequest): Promise<baseResponse<string>> {
   return useAxios.post("/api/user/register", data)
 }
+
+export function userLogoutApi(): Promise<baseResponse<string>> {
+  return useAxios.post('/api/user/logout')
+}

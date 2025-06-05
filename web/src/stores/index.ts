@@ -1,5 +1,5 @@
 import { siteInfoApi, type siteInfoResponse } from '@/api/site-api'
-import { userInfoApi } from '@/api/user-api'
+import { userInfoApi, userLogoutApi } from '@/api/user-api'
 import router from '@/router'
 import { parseJwt } from '@/utils/jwt'
 import { Message } from '@arco-design/web-vue'
@@ -105,6 +105,22 @@ export const useStore = defineStore('useStore', {
       }
 
       this.saveUser()
+    },
+    async logout() {
+      const res = await userLogoutApi()
+      if (res.code) {
+        Message.error(res.message)
+      }
+      localStorage.removeItem('lunar-gate-userInfo')
+      this.userInfo = {
+        token: '',
+        userID: 0,
+        roleList: [],
+        nickname: '',
+        avatar: '',
+      }
+      router.push({ name: 'login' })
+      Message.success('已退出登录')
     },
     async getSiteInfo() {
       const res = await siteInfoApi()

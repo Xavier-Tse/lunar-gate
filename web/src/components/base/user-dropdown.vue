@@ -8,7 +8,7 @@ const store = useStore()
 
 function handleSelect(val: string) {
   if (val === "logout"){
-    Message.success("退出成功")
+    store.logout()
     return
   }
   router.push({name: val})
