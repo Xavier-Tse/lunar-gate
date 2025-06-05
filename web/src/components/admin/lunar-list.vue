@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
-import type {TableColumn} from "@arco-design/web-vue";
+import {Message, type TableColumn} from "@arco-design/web-vue";
+import type { baseParams, baseResponse, listResponse } from "@/api";
+import { dateTimeFormat } from "@/utils/date";
 
 interface actionGroupType {
   label: string
@@ -9,7 +11,7 @@ interface actionGroupType {
 }
 
 interface Props {
-  url: string
+  url: (params?: baseParams) => Promise<baseResponse<listResponse<any>>>
   columns: TableColumn,
   noAdd?: boolean
   noDelete?: boolean
@@ -20,8 +22,8 @@ interface Props {
   actionGroup?: actionGroupType[]
 }
 
-const params = reactive({
-  limit: 2,
+const params = reactive<baseParams>({
+  limit: 10,
   page: 1,
   key: "",
 })
@@ -31,7 +33,7 @@ const actionValue = ref('')
 const selectedKeys = ref([])
 const emits = defineEmits(['add', 'edit', 'remove', 'removeBatch'])
 
-const data = reactive({
+const data = reactive<listResponse<any>>({
   list: [],
   count: 0,
 })
@@ -41,15 +43,14 @@ const rowSelection = {
   showCheckedAll: true
 }
 
-function getList() {
-  Object.assign(data, {
-    count: 10,
-    list: [
-      {id: 1, username: "fengfeng", createdAt: "2025-05-18 13:30:00"},
-      {id: 2, username: "zhangsan", createdAt: "2025-05-18 13:30:00"},
-      {id: 3, username: "lisi", createdAt: "2025-05-18 13:30:00"},
-    ]
-  })
+async function getList() {
+  const res = await props.url(params)
+  if (res.code) {
+    Message.error(res.message)
+    return
+  }
+  data.list = res.data!.list
+  data.count = res.data!.count
 }
 getList()
 
@@ -134,8 +135,7 @@ function actionHandler() {
       >
         <template #columns>
           <template v-for="item in props.columns">
-            <a-table-column v-if="item.dataIndex" v-bind="item" />
-            <a-table-column v-if="item.slotName" v-bind="item">
+            <a-table-column v-if="item.type || item.slotName" v-bind="item">
               <template #cell="data">
                 <template v-if="item.slotName === 'action'">
                   <div class="actions">
@@ -154,9 +154,22 @@ function actionHandler() {
                     </slot>
                   </div>
                 </template>
+                <template v-else-if="item.slotName === 'createdAt'">
+                  <span>{{ dateTimeFormat(data.record.createdAt) }}</span>
+                </template>
+                <template v-else-if="item.type === 'date' || item.type === 'datetime' || item.type === 'relative'">
+                  <span>{{ dateTimeFormat(data.record[item.dataIndex]) }}</span>
+                </template>
+                <template v-else-if="item.type === 'switch'">
+                  <a-switch :model-value="data.record[item.dataIndex]" style="cursor: not-allowed;" />
+                </template>
+                <template v-else-if="item.type === 'avatar'">
+                  <a-avatar :image-url="data.record[item.dataIndex]" />
+                </template>
                 <slot :name="item.slotName" v-bind="data"></slot>
               </template>
             </a-table-column>
+            <a-table-column v-else-if="item.dataIndex" v-bind="item" />
           </template>
         </template>
       </a-table>
@@ -211,6 +224,12 @@ function actionHandler() {
 
   .record {
     padding: 10px 20px 20px 20px;
+
+    .actions {
+      .arco-btn {
+        margin-right: 10px;
+      }
+    }
   }
 
   .page {

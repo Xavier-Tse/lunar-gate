@@ -1,4 +1,5 @@
-import { useAxios, type baseResponse } from ".";
+import { useAxios, type baseParams, type baseResponse, type listResponse } from ".";
+import type { roleType } from "./role-api";
 
 export interface userLoginRequest {
   username: string
@@ -42,4 +43,24 @@ export function userRegisterApi(data: userRegisterRequest): Promise<baseResponse
 
 export function userLogoutApi(): Promise<baseResponse<string>> {
   return useAxios.post('/api/user/logout')
+}
+
+export interface userListRequest extends baseParams {
+  username?: string
+}
+
+export interface userListResponse {
+  id: number
+  createdAt: string
+  updatedAt: string
+  username: string
+  nickname: string
+  avatar: string
+  email: string
+  isAdmin: boolean
+  roleList: roleType[]
+}
+
+export function userListApi(params?: userListRequest): Promise<baseResponse<listResponse<userListResponse>>> {
+  return useAxios.get('/api/user/list', { params })
 }

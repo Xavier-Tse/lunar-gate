@@ -1,10 +1,10 @@
 package user_api
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/query"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/gin-gonic/gin"
 )
 
 type UserListRequest struct {
@@ -29,8 +29,9 @@ func (UserApi) List(c *gin.Context) {
 		Username: cr.Username,
 		Email:    cr.Email,
 	}, query.Option{
-		Page:  cr.Page,
-		Likes: []string{"nickname", "username"},
+		Page:     cr.Page,
+		Likes:    []string{"nickname", "username"},
+		Preloads: []string{"RoleList"},
 	})
 	res.OkWithList(list, count, c)
 }

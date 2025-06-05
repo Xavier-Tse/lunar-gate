@@ -30,3 +30,15 @@ export interface baseResponse<T> {
   message: string
   data?: T
 }
+
+export interface listResponse<T> {
+  count: number
+  list: T[]
+}
+
+export interface baseParams {
+  page?: number
+  limit?: number
+  sort?: string
+  key?: string
+}
