@@ -26,3 +26,8 @@ type IDRequest struct {
 type IDListRequest struct {
 	IDList []uint `json:"idList"`
 }
+
+type OptionsResponse struct {
+	Label string `json:"label" gorm:"column:label"`
+	Value uint   `json:"value" gorm:"column:value"`
+}

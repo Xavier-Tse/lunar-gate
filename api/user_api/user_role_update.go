@@ -62,7 +62,7 @@ func (UserApi) UserRoleUpdate(c *gin.Context) {
 	if len(removeList) > 0 {
 		var removeUserRoleList []model.UserRole
 		global.DB.Find(&removeUserRoleList, "user_id = ? and role_id in ?", cr.UserID, removeList)
-		global.DB.Delete(&removeUserRoleList)
+		global.DB.Unscoped().Delete(&removeUserRoleList)
 	}
 	msg := fmt.Sprintf("新增角色 %d 个，删除角色 %d 个", len(addList), len(removeList))
 	res.OkWithMessage(msg, c)

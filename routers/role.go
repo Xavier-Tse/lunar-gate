@@ -12,4 +12,5 @@ func RoleRouter(g *gin.RouterGroup) {
 	r.GET("", app.List)
 	r.PUT("", app.Update)
 	r.DELETE("", app.Remove)
+	r.GET("options", app.RoleOptions)
 }

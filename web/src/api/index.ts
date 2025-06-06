@@ -36,6 +36,11 @@ export interface listResponse<T> {
   list: T[]
 }
 
+export interface optionsResponse {
+  lable: string
+  value: number
+}
+
 export interface baseParams {
   page?: number
   limit?: number
