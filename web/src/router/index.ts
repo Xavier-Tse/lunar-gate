@@ -56,7 +56,7 @@ const router = createRouter({
             {
               path: 'user',
               name: 'user-list',
-              component: () => import('../views/admin/user/user-list.vue'),
+              component: () => import('../views/admin/manage/user-list.vue'),
               meta: {
                 title: '用户列表',
               },
@@ -64,9 +64,17 @@ const router = createRouter({
             {
               path: 'role',
               name: 'role-list',
-              component: () => import('../views/admin/user/role-list.vue'),
+              component: () => import('../views/admin/manage/role-list.vue'),
               meta: {
                 title: '角色列表',
+              },
+            },
+            {
+              path: 'api',
+              name: 'api-list',
+              component: () => import('../views/admin/manage/api-list.vue'),
+              meta: {
+                title: 'API列表',
               },
             },
           ],

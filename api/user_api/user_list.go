@@ -29,7 +29,6 @@ func (UserApi) List(c *gin.Context) {
 		Username: cr.Username,
 		Email:    cr.Email,
 	}, query.Option{
-		Debug:    true,
 		Page:     cr.Page,
 		Likes:    []string{"nickname", "username"},
 		Preloads: []string{"RoleList"},

@@ -3,6 +3,7 @@ import {reactive, ref} from "vue";
 import {Message, type TableColumn} from "@arco-design/web-vue";
 import { defaultDeleteApi, type baseParams, type baseResponse, type listResponse } from "@/api";
 import { dateTimeFormat } from "@/utils/date";
+import LunarOptions from "../base/lunar-options.vue";
 
 interface actionGroupType {
   label: string
@@ -197,6 +198,9 @@ defineExpose({
                 </template>
                 <template v-else-if="item.type === 'avatar'">
                   <a-avatar :image-url="data.record[item.dataIndex]" />
+                </template>
+                <template v-else-if="item.type === 'options'">
+                  <LunarOptions :options="item.options" :value="data.record[item.dataIndex]" />
                 </template>
                 <slot :name="item.slotName" v-bind="data"></slot>
               </template>

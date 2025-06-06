@@ -36,9 +36,9 @@ export interface listResponse<T> {
   list: T[]
 }
 
-export interface optionsResponse {
-  lable: string
-  value: number
+export interface optionsResponse<T> {
+  label: string
+  value: T
 }
 
 export interface baseParams {
