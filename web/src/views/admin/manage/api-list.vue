@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { generateOptions, getOptions, type optionsResponse } from '@/api';
+import { generateOptions } from '@/api';
 import { apiCreateApi, apiGroupOptionsApi, apiListApi, type apiCreateRequest, type apiType } from '@/api/api-api';
 import LunarList from '@/components/admin/lunar-list.vue';
+import LunarSystemRouterModal from '@/components/admin/lunar-system-router-modal.vue';
 import { methodOptions } from '@/options';
 import { Message } from '@arco-design/web-vue';
 import { reactive, ref } from 'vue';
 
 const lunarListRef = ref()
 const visible = ref(false)
+const systemRouterVisible = ref(false)
 
 const groupOptions = generateOptions(apiGroupOptionsApi)
 
@@ -74,6 +76,9 @@ async function apiHandler() {
   lunarListRef.value.getList()
 }
 
+function systemRouterOkHandler() {
+  lunarListRef.value.getList()
+}
 </script>
 
 <template>
@@ -94,12 +99,11 @@ async function apiHandler() {
         </a-form-item>
       </a-form>
     </a-modal>
+    <LunarSystemRouterModal @ok="systemRouterOkHandler" v-model:visible="systemRouterVisible"></LunarSystemRouterModal>
     <LunarList ref="lunarListRef" @add="add" @edit="edit" :columns="columns" :url="apiListApi" :filter-group="filterGroup">
-</LunarList>
+      <template #action1>
+        <a-button type="outline" @click="systemRouterVisible=true">同步系统API</a-button>
+      </template>
+    </LunarList>
   </div>
 </template>
-
-<style lang="less">
-// .api-list-view {
-// }
-</style>

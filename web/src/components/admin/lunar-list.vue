@@ -176,6 +176,7 @@ defineExpose({
     <div class="head">
       <div class="left">
         <a-button @click="add" v-if="!props.noAdd" type="primary">添加</a-button>
+        <slot name="action1"></slot>
         <a-select
           allow-clear
           :options="actions"
