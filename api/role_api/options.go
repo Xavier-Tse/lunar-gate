@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (RoleApi) RoleOptions(c *gin.Context) {
-	var list = make([]model.OptionsResponse, 0)
+func (RoleApi) Options(c *gin.Context) {
+	var list = make([]model.OptionsResponse[uint], 0)
 	global.DB.Model(model.Role{}).Order("created_at desc").Select("id as value", "title as label").Scan(&list)
 	res.OkWithData(list, c)
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { apiCreateApi, apiListApi, type apiCreateRequest } from '@/api/api-api';
-import { type userListResponse } from '@/api/user-api';
+import { generateOptions, getOptions, type optionsResponse } from '@/api';
+import { apiCreateApi, apiGroupOptionsApi, apiListApi, type apiCreateRequest, type apiType } from '@/api/api-api';
 import LunarList from '@/components/admin/lunar-list.vue';
 import { methodOptions } from '@/options';
 import { Message } from '@arco-design/web-vue';
@@ -9,7 +9,10 @@ import { reactive, ref } from 'vue';
 const lunarListRef = ref()
 const visible = ref(false)
 
+const groupOptions = generateOptions(apiGroupOptionsApi)
+
 const form = reactive<apiCreateRequest>({
+  id: 0,
   name: '',
   path: '',
   group: '',
@@ -25,9 +28,41 @@ const columns = [
   { title: '操作', slotName: 'action' },
 ]
 
-function edit(record: userListResponse) {
+async function getList(params?: any) {
+  lunarListRef.value?.getList(params)
+}
+
+function edit(record: apiType) {
+  form.id = record.id
+  form.name = record.name
+  form.path = record.path
+  form.group = record.group
+  form.method = record.method
   visible.value = true
 }
+
+function add() {
+  form.id = 0
+  form.name = ''
+  form.path = ''
+  form.group = ''
+  form.method = ''
+  visible.value = true
+}
+
+const filterGroup = [
+  {
+    label: '过滤分组',
+    column: 'group',
+    source: () => apiGroupOptionsApi(),
+    callback: (column: string, val: string) => {
+      const obj: { [key: string]: string } = {}
+      obj[column] = val
+      getList(obj)
+    },
+    options: []
+  }
+]
 
 async function apiHandler() {
   const res = await apiCreateApi(form)
@@ -43,10 +78,10 @@ async function apiHandler() {
 
 <template>
   <div class="api-list-view no-padding">
-    <a-modal title="创建API" v-model:visible="visible" :on-before-ok="apiHandler">
+    <a-modal :title="form.id === 0 ? '创建API' : '编辑API'" v-model:visible="visible" :on-before-ok="apiHandler">
       <a-form :model="form">
         <a-form-item label="分组">
-          <a-select placeholder="API分组" v-model="form.group" allow-create allow-clear />
+          <a-select placeholder="API分组" :options="groupOptions" v-model="form.group" allow-create allow-clear />
         </a-form-item>
         <a-form-item label="名称" :rules="[{ required: true, message: '请输入API名称' }]" field="name" validate-trigger="blur">
           <a-input placeholder="API名称" v-model="form.name" />
@@ -59,11 +94,12 @@ async function apiHandler() {
         </a-form-item>
       </a-form>
     </a-modal>
-    <LunarList ref="lunarListRef" @add="visible=true" :columns="columns" :url="apiListApi" @edit="edit"></LunarList>
+    <LunarList ref="lunarListRef" @add="add" @edit="edit" :columns="columns" :url="apiListApi" :filter-group="filterGroup">
+</LunarList>
   </div>
 </template>
 
 <style lang="less">
-.api-list-view {
-}
+// .api-list-view {
+// }
 </style>

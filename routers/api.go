@@ -15,4 +15,5 @@ func ApiRouter(g *gin.RouterGroup) {
 	r.GET("system", app.SystemRouterList)
 	r.POST("create/batch", app.BatchCreate)
 	r.GET("group", app.GroupList)
+	r.GET("options", app.Options)
 }

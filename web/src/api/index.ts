@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Message } from "@arco-design/web-vue";
 import { useStore } from "@/stores";
+import { ref, type Ref } from "vue";
 
 export const useAxios = axios.create({
   timeout: 6000,
@@ -36,9 +37,9 @@ export interface listResponse<T> {
   list: T[]
 }
 
-export interface optionsResponse<T> {
+export interface optionsResponse {
   label: string
-  value: T
+  value: string | number
 }
 
 export interface baseParams {
@@ -50,4 +51,18 @@ export interface baseParams {
 
 export function defaultDeleteApi(url: string, idList: number[]): Promise<baseResponse<string>> {
   return useAxios.delete(url, { data: { idList } })
+}
+
+export function getOptions(ref: Ref<optionsResponse[]>, func: () => Promise<baseResponse<optionsResponse[]>>) {
+  func().then((res) => {
+    ref.value = res.data as any
+  })
+}
+
+export function generateOptions(func: () => Promise<baseResponse<optionsResponse[]>>): Ref<optionsResponse[]> {
+  const r = ref<optionsResponse[]>([])
+  func().then((res) => {
+    r.value = res.data as any
+  })
+  return r
 }

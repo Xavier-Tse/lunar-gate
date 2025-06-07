@@ -1,6 +1,6 @@
 import type { optionsResponse } from "@/api";
 
-export interface optionColorType extends optionsResponse<string> {
+export interface optionColorType extends optionsResponse {
   color?: string
 }
 

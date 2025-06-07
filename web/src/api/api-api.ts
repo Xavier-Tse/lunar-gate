@@ -1,4 +1,4 @@
-import { useAxios, type baseParams, type baseResponse, type listResponse } from "."
+import { useAxios, type baseParams, type baseResponse, type listResponse, type optionsResponse } from "."
 
 export interface apiType {
   id: number
@@ -16,10 +16,11 @@ export interface apiListRequest extends baseParams {
 }
 
 export function apiListApi(params?: apiListRequest): Promise<baseResponse<listResponse<apiType>>> {
-  return useAxios.get('/api/api')
+  return useAxios.get('/api/api', { params })
 }
 
 export interface apiCreateRequest {
+  id: number
   name: string
   "path": string
   method: string
@@ -27,5 +28,12 @@ export interface apiCreateRequest {
 }
 
 export function apiCreateApi(data: apiCreateRequest): Promise<baseResponse<string>> {
-  return useAxios.post('/api/api', data)
+  if (data.id === 0) {
+    return useAxios.post('/api/api', data)
+  }
+  return useAxios.put('/api/api', data)
+}
+
+export function apiGroupOptionsApi(): Promise<baseResponse<optionsResponse[]>> {
+  return useAxios.get('/api/api/options')
 }

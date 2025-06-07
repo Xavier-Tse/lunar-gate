@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
 import {Message, type TableColumn} from "@arco-design/web-vue";
-import { defaultDeleteApi, type baseParams, type baseResponse, type listResponse } from "@/api";
+import { defaultDeleteApi, type baseParams, type baseResponse, type listResponse, type optionsResponse } from "@/api";
 import { dateTimeFormat } from "@/utils/date";
 import LunarOptions from "../base/lunar-options.vue";
 
@@ -9,6 +9,14 @@ interface actionGroupType {
   label: string
   value: string
   callback: (idList: any[]) => void
+}
+
+interface filterGroupType {
+  label: string
+  column: string
+  callback: (column: string, val: string) => void
+  source: () => Promise<baseResponse<optionsResponse[]>> | optionsResponse[]
+  options: optionsResponse[]
 }
 
 interface Props {
@@ -21,6 +29,7 @@ interface Props {
   noPage?: boolean
   noSearch?: boolean
   actionGroup?: actionGroupType[]
+  filterGroup?: filterGroupType[]
   defaultParams?: Object
   noDefaultDelete?: boolean
 }
@@ -46,9 +55,27 @@ const rowSelection = {
   showCheckedAll: true
 }
 
-async function getList() {
+async function initFilterGroup() {
+  if (props.filterGroup) {
+    for (const f of props.filterGroup) {
+      if (typeof f.source === 'function') {
+        const res = await f.source()
+        const r = res as baseResponse<optionsResponse[]>
+        f.options = r.data as any
+      } else {
+        f.options = f.source
+      }
+    }
+  }
+}
+initFilterGroup()
+
+async function getList(p?: baseParams) {
   if (props.defaultParams) {
     Object.assign(params, props.defaultParams)
+  }
+  if (p) {
+    Object.assign(params, p)
   }
   const res = await props.url(params)
   if (res.code) {
@@ -58,7 +85,7 @@ async function getList() {
   data.list = res.data!.list
   data.count = res.data!.count
 }
-getList()
+getList(props.defaultParams as any)
 
 function add() {
   emits("add")
@@ -114,7 +141,6 @@ function initActionGroup() {
       actions.value.push(ac)
     }
   }
-
 }
 initActionGroup()
 
@@ -124,6 +150,19 @@ function actionHandler() {
     item.callback(selectedKeys.value)
     selectedKeys.value = []
     return
+  }
+}
+
+async function filterChange(index: number, column: string, val: string) {
+  const item = props.filterGroup?.find((value, index, obj) => index === index)
+  if (item) {
+    if (item.callback) {
+      item.callback(column, val)
+    } else {
+      const obj: { [key: string]: string } = {}
+      obj[column] = val
+      getList(obj)
+    }
   }
 }
 
@@ -151,7 +190,24 @@ defineExpose({
           v-if="selectedKeys.length && actionValue"
           @click="actionHandler"
         >执行</a-button>
-        <a-input-search allow-clear v-model="params.key" v-if="!props.noSearch" class="search" @search="getList" @keydown.enter="getList" placeholder="搜索" />
+        <a-input-search
+          class="search"
+          allow-clear v-model="params.key"
+          v-if="!props.noSearch"
+          @search="getList"
+          @keydown.enter="getList"
+          placeholder="搜索"
+        />
+        <div class="filter-group">
+          <a-select
+            allow-clear
+            v-for="(item, index) in props.filterGroup"
+            :placeholder="item.label"
+            :options="item.options"
+            style="width: 160px;"
+            @change="filterChange(index, item.column, $event)"
+          />
+        </div>
         <slot name="search_other"></slot>
       </div>
       <div class="refresh">
@@ -234,6 +290,8 @@ defineExpose({
     position: relative;
 
     .left{
+      display: flex;
+
       >*{
         margin-right: 10px;
       }
