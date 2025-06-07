@@ -66,3 +66,38 @@ export function generateOptions(func: () => Promise<baseResponse<optionsResponse
   })
   return r
 }
+
+interface cacheType {
+  time: number
+  res: Promise<baseResponse<optionsResponse[]>>
+}
+const cacheData: Record<string, cacheType> = {}
+
+export function generateOptionsCache(func: () => Promise<baseResponse<optionsResponse[]>>): Ref<optionsResponse[]> {
+  const key = func.toString()
+  let val = cacheData[key]
+  if (!val) {
+    const res = func()
+    val = {
+      res: res,
+      time: new Date().getTime(),
+    }
+    cacheData[key] = val
+  }
+
+  const nowTime = new Date().getTime()
+  if (nowTime - val.time > 5000) {
+    const res = func()
+    val = {
+      res: res,
+      time: new Date().getTime(),
+    }
+    cacheData[key] = val
+  }
+
+  const r = ref<optionsResponse[]>([])
+  val.res.then((res) => {
+    r.value = res.data as any
+  })
+  return r
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { generateOptions } from '@/api';
+import { generateOptions, generateOptionsCache } from '@/api';
 import { apiBatchCreateApi, apiGroupOptionsApi, systemRouterApi, type systemRouterType } from '@/api/api-api';
 import { Message } from '@arco-design/web-vue';
 import { ref } from 'vue';
@@ -12,7 +12,7 @@ const emits = defineEmits(['update:visible', 'ok'])
 
 const data = ref<systemRouterType[]>([])
 const checkboxIndexList = ref<number[]>([])
-const groupOptions = generateOptions(apiGroupOptionsApi)
+const groupOptions = generateOptionsCache(apiGroupOptionsApi)
 
 function cancel() {
   emits('update:visible', false)

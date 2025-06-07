@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { generateOptions } from '@/api';
+import { generateOptions, generateOptionsCache } from '@/api';
 import { apiCreateApi, apiGroupOptionsApi, apiListApi, type apiCreateRequest, type apiType } from '@/api/api-api';
 import LunarList from '@/components/admin/lunar-list.vue';
 import LunarSystemRouterModal from '@/components/admin/lunar-system-router-modal.vue';
@@ -11,7 +11,7 @@ const lunarListRef = ref()
 const visible = ref(false)
 const systemRouterVisible = ref(false)
 
-const groupOptions = generateOptions(apiGroupOptionsApi)
+const groupOptions = generateOptionsCache(apiGroupOptionsApi)
 
 const form = reactive<apiCreateRequest>({
   id: 0,
