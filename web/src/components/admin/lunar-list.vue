@@ -28,6 +28,7 @@ interface Props {
   noAction?: boolean
   noPage?: boolean
   noSearch?: boolean
+  addLabel?: string
   actionGroup?: actionGroupType[]
   filterGroup?: filterGroupType[]
   defaultParams?: Object
@@ -41,6 +42,7 @@ const params = reactive<baseParams>({
 })
 
 const props = defineProps<Props>()
+const { addLabel = '添加' } = props
 const actionValue = ref('')
 const selectedKeys = ref([])
 const emits = defineEmits(['add', 'edit', 'remove', 'removeBatch'])
@@ -178,7 +180,7 @@ defineExpose({
   <div class="lunar-list">
     <div class="head">
       <div class="left">
-        <a-button @click="add" v-if="!props.noAdd" type="primary">添加</a-button>
+        <a-button @click="add" v-if="!props.noAdd" type="primary">{{ addLabel }}</a-button>
         <slot name="action1"></slot>
         <a-select
           allow-clear
@@ -236,14 +238,13 @@ defineExpose({
                 <template v-if="item.slotName === 'action'">
                   <div class="actions">
                     <slot name="actions" :record="data.record">
-                      <a-button
-                        v-if="!props.noEdit"
-                        type="primary"
-                        @click="edit(data.record)"
-                      >编辑</a-button>
+                      <slot name="action-left" :record="data.record"></slot>
+                      <a-button v-if="!props.noEdit" type="primary" @click="edit(data.record)">编辑</a-button>
+                      <slot name="action-middle" :record="data.record"></slot>
                       <a-popconfirm v-if="!props.noDelete" content="确认删除？" @ok="remove(data.record)">
                         <a-button type="primary" status="danger">删除</a-button>
                       </a-popconfirm>
+                      <slot name="action-right" :record="data.record"></slot>
                     </slot>
                   </div>
                 </template>
