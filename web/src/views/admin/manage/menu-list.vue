@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { optionsResponse } from '@/api';
 import { menuCreateApi, menuListApi, type menuCreateRequest, type menuType } from '@/api/menu-api';
 import LunarList from '@/components/admin/lunar-list.vue';
 import LunarIcon from '@/components/base/lunar-icon.vue';
@@ -9,12 +10,21 @@ const lunarListRef = ref()
 const formRef = ref()
 const visible = ref(false)
 
+const fileList = import.meta.glob('@/views/**/*.vue')
+const fileOptions = ref<optionsResponse[]>([])
+fileOptions.value = Object.keys(fileList).map(item => {
+  const key = item.replace('/src', '@')
+  return { label: key, value: key }
+})
+console.log(fileOptions)
+
 const columns = [
   { title: 'ID', dataIndex: 'id' },
   { title: '名称', dataIndex: 'name' },
   { title: '菜单名称', dataIndex: 'meta.title' },
   { title: '图标', slotName: 'icon' },
   { title: '路由', dataIndex: 'path' },
+  { title: '组件', dataIndex: 'component' },
   { title: '是否显示', dataIndex: 'enable', type: 'switch' },
   { title: '排序', dataIndex: 'sort' },
   { title: '创建时间', slotName: 'createdAt' },
@@ -30,10 +40,19 @@ const form = reactive<menuCreateRequest>({
   path: "",
   component: "",
   parentMenuID: undefined,
-  sort: 0
+  sort: 1,
 })
 
 function edit(record: menuType) {
+  form.id = record.id
+  form.icon = record.meta.icon
+  form.title = record.meta.title
+  form.enable = record.enable
+  form.name = record.name
+  form.path = record.path
+  form.component = record.component
+  form.parentMenuID = record.parentMenuID
+  form.sort = record.sort
   visible.value = true
 }
 
@@ -76,7 +95,7 @@ async function createMenuHandler() {
 
 <template>
   <div class="menu-list-view no-padding">
-    <a-modal v-model:visible="visible" :title="form.id === 0 ? !form.parentMenuID ? '创建根菜单' : '创建子菜单' : '更新菜单'" :on-before-ok="createMenuHandler">
+    <a-modal @cancel="cleanForm" v-model:visible="visible" :title="form.id === 0 ? !form.parentMenuID ? '创建根菜单' : '创建子菜单' : '更新菜单'" :on-before-ok="createMenuHandler">
       <a-form :model="form" ref="formRef">
         <a-form-item label="菜单名称" field="title" :rules="[{ required: true, message: '请输入菜单名称' }]" validate-trigger="blur">
           <a-input placeholder="请输入菜单名称" v-model="form.title" />
@@ -94,7 +113,7 @@ async function createMenuHandler() {
           <a-input placeholder="请输入路由路径" v-model="form.path" />
         </a-form-item>
         <a-form-item label="组件" field="component">
-          <a-input placeholder="请输入组件" v-model="form.component" />
+          <a-select allow-clear allow-create :options="fileOptions" placeholder="请输入组件" v-model="form.component" />
         </a-form-item>
         <a-form-item label="是否显示" field="enable">
           <a-switch v-model="form.enable" />

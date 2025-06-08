@@ -36,5 +36,8 @@ export interface menuCreateRequest {
 }
 
 export function menuCreateApi(data: menuCreateRequest): Promise<baseResponse<string>> {
-  return useAxios.post('/api/menu', data)
+  if (data.id === 0) {
+    return useAxios.post('/api/menu', data)
+  }
+  return useAxios.put('/api/menu', data)
 }
