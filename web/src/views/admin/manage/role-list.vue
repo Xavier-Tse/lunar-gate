@@ -20,10 +20,23 @@ const columns = [
   { title: '角色名称', dataIndex: 'title' },
   { title: '角色API数', dataIndex: 'roleApiCount' },
   { title: '角色用户数', dataIndex: 'roleUserCount' },
+  { title: '角色菜单数', dataIndex: 'roleMenuCount' },
   { title: '创建时间', slotName: 'createdAt' },
   { title: '更新时间', dataIndex: 'updatedAt', type: 'datetime' },
   { title: '操作', slotName: 'action' },
 ]
+
+interface roleDataType {
+  roleID: number
+  menuIDList: number[]
+  apiIDList: number[]
+}
+
+const checkRoleData = reactive<roleDataType>({
+  roleID: 0,
+  menuIDList: [],
+  apiIDList: [],
+})
 
 function edit(record: roleType) {
   form.title = record.title
@@ -56,7 +69,13 @@ async function handler() {
 }
 
 function showModal(record: roleType) {
+  checkRoleData.roleID = record.id
+  checkRoleData.menuIDList = record.menuIDList as any
   menuVisible.value = true
+}
+
+function updateMenuOk() {
+  lunarListRef.value.getList()
 }
 
 </script>
@@ -70,7 +89,7 @@ function showModal(record: roleType) {
         </a-form-item>
       </a-form>
     </a-modal>
-    <LunarRoleMenuModal v-model:visible="menuVisible"></LunarRoleMenuModal>
+    <LunarRoleMenuModal @ok="updateMenuOk" :menu-id-list="checkRoleData.menuIDList" :role-id="checkRoleData.roleID" v-model:visible="menuVisible"></LunarRoleMenuModal>
     <LunarList ref="lunarListRef" :columns="columns" :url="roleListApi" @edit="edit" @add="add">
       <template #action-left="{record}: {record: roleType}">
         <a-button @click="showModal(record)" type="outline">设置菜单</a-button>
