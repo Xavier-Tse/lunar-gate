@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
 import {Message, type TableColumn} from "@arco-design/web-vue";
-import { defaultDeleteApi, type baseParams, type baseResponse, type listResponse, type optionsResponse } from "@/api";
+import { defaultDeleteApi, generateOptionsCache, type baseParams, type baseResponse, type listResponse, type optionsResponse } from "@/api";
 import { dateTimeFormat } from "@/utils/date";
 import LunarOptions from "../base/lunar-options.vue";
 
@@ -55,16 +55,19 @@ const rowSelection = {
   showCheckedAll: true
 }
 
+const filterList = ref<filterGroupType[]>([])
+
 async function initFilterGroup() {
   if (props.filterGroup) {
+    filterList.value = []
     for (const f of props.filterGroup) {
       if (typeof f.source === 'function') {
-        const res = await f.source()
-        const r = res as baseResponse<optionsResponse[]>
-        f.options = r.data as any
+        const res = generateOptionsCache(f.source() as any)
+        f.options = res as any
       } else {
         f.options = f.source
       }
+      filterList.value.push(f)
     }
   }
 }
@@ -202,7 +205,7 @@ defineExpose({
         <div class="filter-group">
           <a-select
             allow-clear
-            v-for="(item, index) in props.filterGroup"
+            v-for="(item, index) in filterList"
             :placeholder="item.label"
             :options="item.options"
             style="width: 160px;"

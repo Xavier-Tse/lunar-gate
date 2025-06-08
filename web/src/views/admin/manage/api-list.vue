@@ -56,13 +56,7 @@ const filterGroup = [
   {
     label: '过滤分组',
     column: 'group',
-    source: () => apiGroupOptionsApi(),
-    callback: (column: string, val: string) => {
-      const obj: { [key: string]: string } = {}
-      obj[column] = val
-      getList(obj)
-    },
-    options: []
+    source: () => apiGroupOptionsApi,
   }
 ]
 
