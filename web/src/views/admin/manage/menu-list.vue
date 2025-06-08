@@ -16,7 +16,6 @@ fileOptions.value = Object.keys(fileList).map(item => {
   const key = item.replace('/src', '@')
   return { label: key, value: key }
 })
-console.log(fileOptions)
 
 const columns = [
   { title: 'ID', dataIndex: 'id' },

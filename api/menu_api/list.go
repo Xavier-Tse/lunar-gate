@@ -1,11 +1,11 @@
 package menu_api
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/query"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/gin-gonic/gin"
 )
 
 type MenuListRequest struct {
@@ -27,7 +27,7 @@ func (MenuApi) List(c *gin.Context) {
 		Callback: func(_list any) {
 			list := _list.([]*model.Menu)
 			for _, menu := range list {
-				findSubMenuList(menu)
+				model.SubMenuList(menu)
 			}
 		},
 	})

@@ -41,3 +41,7 @@ export function menuCreateApi(data: menuCreateRequest): Promise<baseResponse<str
   }
   return useAxios.put('/api/menu', data)
 }
+
+export function menuTreeApi(): Promise<baseResponse<menuType[]>> {
+  return useAxios.get('/api/menu/tree')
+}

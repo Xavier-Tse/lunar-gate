@@ -8,6 +8,7 @@ import (
 
 type Menu struct {
 	LunarModel
+	Key             uint    `gorm:"-" json:"key"`
 	Enable          bool    `gorm:"default:false" json:"enable"`
 	Name            string  `gorm:"size:32,unique" json:"name"`
 	Path            string  `gorm:"size:64" json:"path"`
@@ -15,7 +16,7 @@ type Menu struct {
 	Meta            Meta    `gorm:"embedded" json:"meta"`
 	ParentMenuID    *uint   `json:"parentMenuID"`
 	ParentMenuModel *Menu   `gorm:"foreignKey:ParentMenuID" json:"-"`
-	Children        []*Menu `gorm:"foreignKey:ParentMenuID" json:"children"`
+	Children        []*Menu `gorm:"foreignKey:ParentMenuID" json:"children,omitempty"`
 	Sort            int     `json:"sort"`
 }
 
@@ -50,4 +51,12 @@ func FindSubMenuList(model Menu) []Menu {
 		list = append(list, FindSubMenuList(*child)...)
 	}
 	return list
+}
+
+func SubMenuList(model *Menu) {
+	global.DB.Preload("Children").Take(&model)
+	model.Key = model.ID
+	for _, child := range model.Children {
+		SubMenuList(child)
+	}
 }

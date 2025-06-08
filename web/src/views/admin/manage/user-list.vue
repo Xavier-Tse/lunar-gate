@@ -69,9 +69,6 @@ async function updateUserRole() {
       </a-form>
     </a-modal>
     <LunarList ref="lunarListRef" no-add :columns="columns" :url="userListApi" @edit="edit">
-      <template #avatar="{record}:{record: userListResponse}">
-        <a-avatar :image-url="record.avatar" />
-      </template>
       <template #roleList="{record}:{record: userListResponse}">
         <div class="role-list">
           <a-tag v-for="item in record.roleList">
