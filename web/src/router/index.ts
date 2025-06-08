@@ -77,6 +77,14 @@ const router = createRouter({
                 title: 'API列表',
               },
             },
+            {
+              path: 'menu',
+              name: 'menu-list',
+              component: () => import('../views/admin/manage/menu-list.vue'),
+              meta: {
+                title: '菜单列表',
+              },
+            },
           ],
         },
         {

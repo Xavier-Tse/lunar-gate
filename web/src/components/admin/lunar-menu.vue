@@ -14,6 +14,7 @@ const menuList: Ref<MenuType[]> = ref([
       {title: "用户列表", name: "user-list", icon: "fluent:layer-diagonal-person-16-regular"},
       {title: "角色列表", name: "role-list", icon: "fluent:person-key-20-regular"},
       {title: "API列表", name: "api-list", icon: "tabler:api-app"},
+      {title: "菜单列表", name: "menu-list", icon: "tabler:menu-order"},
     ]
   },
   {
