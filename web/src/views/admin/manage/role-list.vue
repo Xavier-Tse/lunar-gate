@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { roleCreateApi, roleListApi, type roleCreateRequest, type roleType } from '@/api/role-api';
 import LunarList from '@/components/admin/lunar-list.vue';
+import LunarRoleApiModal from '@/components/admin/lunar-role-api-modal.vue';
 import LunarRoleMenuModal from '@/components/admin/lunar-role-menu-modal.vue';
 import { Message } from '@arco-design/web-vue';
 import { reactive, ref } from 'vue';
@@ -9,6 +10,7 @@ const lunarListRef = ref()
 const formRef = ref()
 const visible = ref(false)
 const menuVisible = ref(false)
+const apiVisible = ref(false)
 
 const form = reactive<roleCreateRequest>({
   id: 0,
@@ -68,13 +70,23 @@ async function handler() {
   lunarListRef.value.getList()
 }
 
-function showModal(record: roleType) {
+function showMenuModal(record: roleType) {
   checkRoleData.roleID = record.id
   checkRoleData.menuIDList = record.menuIDList as any
   menuVisible.value = true
 }
 
 function updateMenuOk() {
+  lunarListRef.value.getList()
+}
+
+function showApiModal(record: roleType) {
+  checkRoleData.roleID = record.id
+  checkRoleData.apiIDList = record.apiIDList as any
+  apiVisible.value = true
+}
+
+function updateApiOk() {
   lunarListRef.value.getList()
 }
 
@@ -90,10 +102,11 @@ function updateMenuOk() {
       </a-form>
     </a-modal>
     <LunarRoleMenuModal @ok="updateMenuOk" :menu-id-list="checkRoleData.menuIDList" :role-id="checkRoleData.roleID" v-model:visible="menuVisible"></LunarRoleMenuModal>
+    <LunarRoleApiModal @ok="updateApiOk" :api-id-list="checkRoleData.apiIDList" :role-id="checkRoleData.roleID" v-model:visible="apiVisible"></LunarRoleApiModal>
     <LunarList ref="lunarListRef" :columns="columns" :url="roleListApi" @edit="edit" @add="add">
       <template #action-left="{record}: {record: roleType}">
-        <a-button @click="showModal(record)" type="outline">设置菜单</a-button>
-        <a-button type="outline">设置API</a-button>
+        <a-button @click="showMenuModal(record)" type="outline">设置菜单</a-button>
+        <a-button @click="showApiModal(record)" type="outline">设置API</a-button>
       </template>
     </LunarList>
   </div>

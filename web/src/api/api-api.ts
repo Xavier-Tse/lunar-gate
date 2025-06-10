@@ -1,4 +1,5 @@
 import { useAxios, type baseParams, type baseResponse, type listResponse, type optionsResponse } from "."
+import type { roleType } from "./role-api"
 
 export interface apiType {
   id: number
@@ -52,4 +53,8 @@ export function systemRouterApi(): Promise<baseResponse<systemRouterType[]>> {
 
 export function apiBatchCreateApi(data: systemRouterType[]): Promise<baseResponse<string>> {
   return useAxios.post('/api/api/create/batch', { list: data })
+}
+
+export function apiGroupApi(): Promise<baseResponse<Record<string, roleType>>> {
+  return useAxios.get('/api/api/group')
 }
