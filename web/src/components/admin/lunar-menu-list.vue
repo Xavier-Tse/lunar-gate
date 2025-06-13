@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { MenuType } from './lunar-menu-variables';
 import LunarIcon from '../base/lunar-icon.vue';
+import type { menuType } from '@/api/menu-api';
 
 interface Props {
-  list: MenuType[]
+  list: menuType[]
 }
 const props = defineProps<Props>()
 </script>
@@ -12,16 +12,16 @@ const props = defineProps<Props>()
   <template v-for="item in props.list" :key="item.name">
     <a-menu-item :key="item.name" v-if="!item.children">
       <template #icon>
-        <LunarIcon :icon="item.icon" />
+        <LunarIcon :icon="item.meta.icon" />
       </template>
-      {{ item.title }}
+      {{ item.meta.title }}
     </a-menu-item>
     <a-sub-menu :key="item.name" v-if="item.children">
       <template #icon>
-        <LunarIcon :icon="item.icon" />
+        <LunarIcon :icon="item.meta.icon" />
       </template>
       <template #title>
-        {{ item.title }}
+        {{ item.meta.title }}
       </template>
       <LunarMenuList :list="item.children" />
     </a-sub-menu>

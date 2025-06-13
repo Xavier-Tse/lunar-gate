@@ -1,3 +1,5 @@
+import type { menuType } from '@/api/menu-api'
+import { permissionRoleMenuTreeApi } from '@/api/permission-api'
 import { siteInfoApi, type siteInfoResponse } from '@/api/site-api'
 import { userInfoApi, userLogoutApi } from '@/api/user-api'
 import router from '@/router'
@@ -14,6 +16,7 @@ interface IUserStoreType {
     avatar: string
   }
   siteInfo: siteInfoResponse
+  roleMenuTree: menuType[]
 }
 
 export const useStore = defineStore('useStore', {
@@ -45,7 +48,8 @@ export const useStore = defineStore('useStore', {
             type: "math",
           }
         }
-      }
+      },
+      roleMenuTree: [],
     }
   },
   actions: {
@@ -129,6 +133,11 @@ export const useStore = defineStore('useStore', {
         return
       }
       this.siteInfo = res.data as any
-    }
+    },
+    async getRoleMenuTree() {
+      const res = await permissionRoleMenuTreeApi()
+      this.roleMenuTree = res.data as any
+      console.log(this.roleMenuTree)
+    },
   }
 })

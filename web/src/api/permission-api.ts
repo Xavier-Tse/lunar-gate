@@ -1,3 +1,4 @@
+import type { MenuType } from "@/components/admin/lunar-menu-variables";
 import { useAxios, type baseResponse } from ".";
 
 export interface permissionRoleMenuRequest {
@@ -16,4 +17,8 @@ export interface permissionRoleApiRequest {
 
 export function permissionRoleApiApi(data: permissionRoleApiRequest): Promise<baseResponse<string>> {
   return useAxios.put('/api/permission/api', data)
+}
+
+export function permissionRoleMenuTreeApi(): Promise<baseResponse<MenuType[]>> {
+  return useAxios.get('/api/permission/tree')
 }

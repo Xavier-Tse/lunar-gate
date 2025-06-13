@@ -4,8 +4,10 @@ import { collapsed, type MenuType } from './lunar-menu-variables';
 import router from '@/router';
 import LunarMenuList from './lunar-menu-list.vue';
 import { useRoute } from 'vue-router';
+import { useStore } from '@/stores';
 
 const route = useRoute()
+const store = useStore()
 
 const menuList: Ref<MenuType[]> = ref([
   {title: "数据统计", name: "data", icon: "fluent:data-bar-vertical-20-regular"},
@@ -61,7 +63,7 @@ watch(() => route.path, () => {
       v-model:collapsed="collapsed"
       @menu-item-click="select"
     >
-      <LunarMenuList :list="menuList" />
+      <LunarMenuList :list="store.roleMenuTree" />
     </a-menu>
   </div>
 </template>

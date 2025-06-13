@@ -1,7 +1,6 @@
 package user_api
 
 import (
-	"fmt"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
@@ -22,7 +21,6 @@ func (UserApi) Register(c *gin.Context) {
 	var cr RegisterRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailBinding(err, c)
-		fmt.Println(cr)
 		return
 	}
 
@@ -45,7 +43,6 @@ func (UserApi) Register(c *gin.Context) {
 	}
 
 	hashPwd := pwd.Hash(cr.Password)
-	fmt.Println(len(cr.Email))
 	err = global.DB.Create(&model.User{
 		Username: cr.Email,
 		Nickname: "邮箱用户",
