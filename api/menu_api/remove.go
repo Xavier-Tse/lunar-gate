@@ -2,10 +2,10 @@ package menu_api
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/gin-gonic/gin"
 )
 
 func (MenuApi) Remove(c *gin.Context) {

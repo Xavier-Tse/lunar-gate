@@ -1,10 +1,10 @@
 package menu_api
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/common/res"
 	"github.com/Xavier-Tse/lunar-gate/global"
 	"github.com/Xavier-Tse/lunar-gate/model"
+	"github.com/gin-gonic/gin"
 )
 
 type MenuCreateRequest struct {

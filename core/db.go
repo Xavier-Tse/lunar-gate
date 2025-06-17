@@ -2,8 +2,8 @@ package core
 
 import (
 	"fmt"
-	"github.com/glebarez/sqlite"
 	"github.com/Xavier-Tse/lunar-gate/global"
+	"github.com/glebarez/sqlite"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"

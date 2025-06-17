@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/Xavier-Tse/lunar-gate/api"
+	"github.com/gin-gonic/gin"
 )
 
 func EmailRouter(g *gin.RouterGroup) {

@@ -1,9 +1,9 @@
 package global
 
 import (
+	"github.com/Xavier-Tse/lunar-gate/config"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
-	"github.com/Xavier-Tse/lunar-gate/config"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
