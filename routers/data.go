@@ -10,4 +10,5 @@ func DataRouter(g *gin.RouterGroup) {
 	app := api.App.DataApi
 	r.GET("sum", app.Summary)
 	r.GET("user", app.UserTimeAggregation)
+	r.GET("computer", app.Computer)
 }
