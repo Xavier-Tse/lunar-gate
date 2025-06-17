@@ -15,7 +15,7 @@ const data = reactive<dataUserResponse>({
 })
 
 watch(() => theme.value, () => {
-  initOptions()
+  initEcharts()
 })
 
 onMounted(async() => {
@@ -27,14 +27,14 @@ onMounted(async() => {
     return
   }
   Object.assign(data, res.data)
-  initOptions()
+  initEcharts()
 })
 
 window.onresize = () => {
   myChart?.resize()
 }
 
-function initOptions() {
+function initEcharts() {
   let option: EChartsOption
   const textColor = getComputedStyle(document.body).getPropertyValue("--color-text-1")
   const lineColor = getComputedStyle(document.body).getPropertyValue("--color-neutral-2")

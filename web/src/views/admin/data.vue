@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { dataSumApi, type dataSumResponse } from '@/api/data-api';
 import LunarLoginEcharts from '@/components/admin/echarts/lunar-login-echarts.vue';
+import LunarSystemEcharts from '@/components/admin/echarts/lunar-system-echarts.vue';
 import LunarCard from '@/components/base/lunar-card.vue';
 import LunarPointTitle from '@/components/base/lunar-point-title.vue';
 import { useStore } from '@/stores';
 import { Message } from '@arco-design/web-vue';
-import { onMounted, reactive } from 'vue';
+import { reactive } from 'vue';
 
 const store = useStore()
 
@@ -58,7 +59,9 @@ getSumData()
         <div class="title">
           <LunarPointTitle>系统信息</LunarPointTitle>
         </div>
-        <div class="body"></div>
+        <div class="body">
+          <LunarSystemEcharts />
+        </div>
       </div>
     </div>
   </div>
