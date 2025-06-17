@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { IconSunFill } from '@arco-design/web-vue/es/icon'
-import { ref } from 'vue'
-
-const theme = ref('')
+import { theme } from './theme'
 
 function setTheme(t: '' | 'dark') {
   theme.value = t
