@@ -24,7 +24,8 @@ async function beforeOpen() {
     Message.error(res.message)
     return
   }
-  data.value = res.data as any
+  const list = res.data?.filter((value) => !value.enable)
+  data.value = list as any
 }
 
 async function okHandler() {
@@ -48,18 +49,63 @@ async function okHandler() {
   await beforeOpen()
   checkboxIndexList.value = []
 }
+
+function inputKeydown(t: string, index: number) {
+  if (t === 'right') {
+    const dom = document.querySelector(`.system-router-select-${index} input`) as HTMLInputElement
+    dom?.focus()
+  } else if (t === 'up') {
+    index--
+    const dom = document.querySelector(`.system-router-input-${index} input`) as HTMLInputElement
+    dom?.focus()
+  } else if (t === 'down') {
+    index++
+    const dom = document.querySelector(`.system-router-input-${index} input`) as HTMLInputElement
+    dom?.focus()
+  }
+}
+
+function inputChange(val: string, index: number) {
+  if (val) {
+    checkboxIndexList.value.push(index)
+  }
+}
+
+function selectChange(val: string, index: number) {
+  if (val) {
+    index++
+    const dom = document.querySelector(`.system-router-input-${index} input`) as HTMLInputElement
+    dom?.focus()
+  }
+}
 </script>
 
 <template>
   <a-modal width="auto" title="同步系统API" :on-before-ok="okHandler" :visible="props.visible" @before-open="beforeOpen" @cancel="cancel" modal-class="system-router-modal">
     <a-checkbox-group v-model="checkboxIndexList">
       <template v-for="(item, index) in data">
-        <div class="item" v-if="!item.enable">
+        <div class="item">
           <a-checkbox :value="index" />
           <span :class="'method ' + item.method">{{ item.method }}</span>
           <span class="path">{{ item.path }}</span>
-          <a-input placeholder="API名称" v-model="item.name" />
-          <a-select :options="groupOptions" allow-create allow-clear placeholder="API分组" v-model="item.group" />
+          <a-input
+            :class="`system-router-input-${index}`"
+            @keydown.right="inputKeydown('right', index)"
+            @keydown.down="inputKeydown('down', index)"
+            @keydown.up="inputKeydown('up', index)"
+            @change="inputChange($event, index)"
+            placeholder="API名称"
+            v-model="item.name"
+          />
+          <a-select
+            :class="`system-router-select-${index}`"
+            :options="groupOptions"
+            @change="selectChange($event, index)"
+            allow-create
+            allow-clear
+            placeholder="API分组"
+            v-model="item.group"
+          />
         </div>
       </template>
     </a-checkbox-group>
@@ -89,7 +135,7 @@ async function okHandler() {
         }
 
         &.GET {
-          color: rgb(0, 110, 255);
+          color: rgb(var(--blue-6));
         }
 
         &.DELETE {

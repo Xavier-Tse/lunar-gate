@@ -86,6 +86,9 @@ function cancel() {
 
 <style lang="less">
 .lunar-role-api-modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+
   .api-tree {
     .arco-checkbox-group {
       width: 100%;

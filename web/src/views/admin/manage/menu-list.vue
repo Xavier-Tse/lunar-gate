@@ -13,8 +13,12 @@ const visible = ref(false)
 const fileList = import.meta.glob('@/views/**/*.vue')
 const fileOptions = ref<optionsResponse[]>([])
 fileOptions.value = Object.keys(fileList).map(item => {
-  const key = item.replace('/src', '@')
+  const key = item.replace('/src', '..')
   return { label: key, value: key }
+})
+fileOptions.value.push({
+  label: '../views/admin/manage/menu-list.vue',
+  value: '../views/admin/manage/menu-list.vue',
 })
 
 const columns = [

@@ -159,7 +159,6 @@ export const useStore = defineStore('useStore', {
 
 function transformRoutes(backendRoutes: menuType[]): RouteRecordRaw[] {
   return backendRoutes.map(route => {
-    console.log('route ', route)
     const item = {
       ...route,
       children: route.children ? transformRoutes(route.children) : []
@@ -167,8 +166,6 @@ function transformRoutes(backendRoutes: menuType[]): RouteRecordRaw[] {
     if (route.component) {
       item.component = (() => import(/* @vite-ignore */route.component)) as any
     }
-    console.log('component', route.component)
-    console.log('item ', item)
     return item as any
   })
 }

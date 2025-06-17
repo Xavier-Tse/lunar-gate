@@ -4,6 +4,7 @@ import { apiCreateApi, apiGroupOptionsApi, apiListApi, type apiCreateRequest, ty
 import LunarList from '@/components/admin/lunar-list.vue';
 import LunarSystemRouterModal from '@/components/admin/lunar-system-router-modal.vue';
 import { methodOptions } from '@/options';
+import type { filterGroupType } from '@/types';
 import { Message } from '@arco-design/web-vue';
 import { reactive, ref } from 'vue';
 
@@ -52,11 +53,11 @@ function add() {
   visible.value = true
 }
 
-const filterGroup = [
+const filterGroup: filterGroupType[] = [
   {
     label: '过滤分组',
     column: 'group',
-    source: () => apiGroupOptionsApi,
+    source: apiGroupOptionsApi,
   }
 ]
 
