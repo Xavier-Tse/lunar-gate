@@ -45,6 +45,8 @@ async function okHandler() {
   emits('ok')
   Message.success(res.message)
   emits('update:visible', false)
+  await beforeOpen()
+  checkboxIndexList.value = []
 }
 </script>
 

@@ -37,76 +37,86 @@ const router = createRouter({
         title: '首页',
         isLogin: true,
       },
-      children: [
-        {
-          path: 'data',
-          name: 'data',
-          meta: {
-            title: '数据统计',
-          },
-          component: () => import('../views/admin/data.vue'),
-        },
-        {
-          path: 'manage',
-          name: 'manage',
-          meta: {
-            title: '管理',
-          },
-          children: [
-            {
-              path: 'user',
-              name: 'user-list',
-              component: () => import('../views/admin/manage/user-list.vue'),
-              meta: {
-                title: '用户列表',
-              },
-            },
-            {
-              path: 'role',
-              name: 'role-list',
-              component: () => import('../views/admin/manage/role-list.vue'),
-              meta: {
-                title: '角色列表',
-              },
-            },
-            {
-              path: 'api',
-              name: 'api-list',
-              component: () => import('../views/admin/manage/api-list.vue'),
-              meta: {
-                title: 'API列表',
-              },
-            },
-            {
-              path: 'menu',
-              name: 'menu-list',
-              component: () => import('../views/admin/manage/menu-list.vue'),
-              meta: {
-                title: '菜单列表',
-              },
-            },
-          ],
-        },
-        {
-          path: "/:all(.*)",
-          component: () => import('../views/admin/404.vue'),
-        }
-      ],
+      // children: [
+      //   {
+      //     path: 'data',
+      //     name: 'data',
+      //     meta: {
+      //       title: '数据统计',
+      //     },
+      //     component: () => import('../views/admin/data.vue'),
+      //   },
+      //   {
+      //     path: 'manage',
+      //     name: 'manage',
+      //     meta: {
+      //       title: '管理',
+      //     },
+      //     children: [
+      //       {
+      //         path: 'user',
+      //         name: 'user-list',
+      //         component: () => import('../views/admin/manage/user-list.vue'),
+      //         meta: {
+      //           title: '用户列表',
+      //         },
+      //       },
+      //       {
+      //         path: 'role',
+      //         name: 'role-list',
+      //         component: () => import('../views/admin/manage/role-list.vue'),
+      //         meta: {
+      //           title: '角色列表',
+      //         },
+      //       },
+      //       {
+      //         path: 'api',
+      //         name: 'api-list',
+      //         component: () => import('../views/admin/manage/api-list.vue'),
+      //         meta: {
+      //           title: 'API列表',
+      //         },
+      //       },
+      //       {
+      //         path: 'menu',
+      //         name: 'menu-list',
+      //         component: () => import('../views/admin/manage/menu-list.vue'),
+      //         meta: {
+      //           title: '菜单列表',
+      //         },
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     path: "/:all(.*)",
+      //     component: () => import('../views/admin/404.vue'),
+      //   }
+      // ],
     },
+    {
+      path: "/:all(.*)",
+      component: () => import('../views/admin/404.vue'),
+    }
   ],
 })
 
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   NProgress.start();//开启进度条
-  if (to.meta.isLogin) {
-    const store = useStore()
-    if (store.userInfo.userID === 0) {
-      Message.warning('请登录')
-      router.push({ name: 'login' })
-      return
-    }
+  const store = useStore()
+  if (!store.isLoadMenu) {
+    await store.getRoleMenuTree()
+    next({ ...to, replace: true })
+    return
   }
+  // if (to.meta.isLogin) {
+  //   const store = useStore()
+  //   if (store.userInfo.userID === 0) {
+  //     Message.warning('请登录')
+  //     router.push({ name: 'login' })
+  //     return
+  //   }
+  // }
   next()
 })
 //当路由进入后：关闭进度条

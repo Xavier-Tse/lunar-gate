@@ -2,15 +2,17 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import type {ImportMetaEnv} from "./env";
+import type { ImportMetaEnv } from "./env";
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode }) => {
   let env: Record<keyof ImportMetaEnv, string> = loadEnv(mode, process.cwd())
-  const serverUrl =  env.VITE_SERVER_URL
+  const serverUrl = env.VITE_SERVER_URL
   return {
     plugins: [
       vue(),
+      vueDevTools(),
     ],
     envDir: "./",
     resolve: {

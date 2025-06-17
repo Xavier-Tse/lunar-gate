@@ -6,6 +6,7 @@ import router from '@/router'
 import { parseJwt } from '@/utils/jwt'
 import { Message } from '@arco-design/web-vue'
 import { defineStore } from 'pinia'
+import type { Router, RouteRecordRaw } from 'vue-router'
 
 interface IUserStoreType {
   userInfo: {
@@ -17,6 +18,7 @@ interface IUserStoreType {
   }
   siteInfo: siteInfoResponse
   roleMenuTree: menuType[]
+  isLoadMenu: boolean
 }
 
 export const useStore = defineStore('useStore', {
@@ -50,6 +52,7 @@ export const useStore = defineStore('useStore', {
         }
       },
       roleMenuTree: [],
+      isLoadMenu: false,
     }
   },
   actions: {
@@ -135,9 +138,37 @@ export const useStore = defineStore('useStore', {
       this.siteInfo = res.data as any
     },
     async getRoleMenuTree() {
+      if (this.isLoadMenu) {
+        return
+      }
       const res = await permissionRoleMenuTreeApi()
+      if (res.code) {
+        this.isLoadMenu = true
+        return
+      }
       this.roleMenuTree = res.data as any
-      console.log(this.roleMenuTree)
+
+      const dynamicRoutes = transformRoutes(res.data as any)
+      dynamicRoutes.forEach(route => {
+        router.addRoute('admin', route)
+      })
+      this.isLoadMenu = true
     },
   }
 })
+
+function transformRoutes(backendRoutes: menuType[]): RouteRecordRaw[] {
+  return backendRoutes.map(route => {
+    console.log('route ', route)
+    const item = {
+      ...route,
+      children: route.children ? transformRoutes(route.children) : []
+    }
+    if (route.component) {
+      item.component = (() => import(/* @vite-ignore */route.component)) as any
+    }
+    console.log('component', route.component)
+    console.log('item ', item)
+    return item as any
+  })
+}
