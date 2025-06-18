@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LunarUserLoginEcharts from '@/components/admin/echarts/lunar-user-login-echarts.vue';
 import LunarIcon from '@/components/base/lunar-icon.vue';
 import LunarPointTitle from '@/components/base/lunar-point-title.vue';
 import { useStore } from '@/stores';
@@ -97,7 +98,9 @@ const dateLineList: dateLineType[] = [
         </div>
         <div class="login-info">
           <LunarPointTitle>登陆情况</LunarPointTitle>
-          <div class="body"></div>
+          <div class="body">
+            <LunarUserLoginEcharts />
+          </div>
         </div>
       </div>
       <div class="sector">
