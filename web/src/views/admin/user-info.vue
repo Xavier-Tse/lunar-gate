@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { userDetailApi, type userDetailResponse } from '@/api/user-api';
 import LunarUserLoginEcharts from '@/components/admin/echarts/lunar-user-login-echarts.vue';
 import LunarIcon from '@/components/base/lunar-icon.vue';
 import LunarPointTitle from '@/components/base/lunar-point-title.vue';
 import { useStore } from '@/stores';
 import { dateTimeFormat } from '@/utils/date';
+import { Message } from '@arco-design/web-vue';
+import { reactive } from 'vue';
 
 const store = useStore()
 
@@ -16,6 +19,28 @@ interface dateLineType {
 const dateLineList: dateLineType[] = [
   {date: "2025-06-17", title: "milestone V1.0.0", abstract: "milestone V1.0.0"},
 ]
+
+const data = reactive<userDetailResponse>({
+  userID: 0,
+  nickname: '',
+  username: '',
+  email: '',
+  avatar: '',
+  createdAt: '',
+  updatedAt: '',
+  roleList: [],
+  addr: '',
+})
+
+async function getData() {
+  const res = await userDetailApi()
+  if (res.code) {
+    Message.error(res.message)
+    return
+  }
+  Object.assign(data, res.data)
+}
+getData()
 </script>
 
 <template>
@@ -24,13 +49,13 @@ const dateLineList: dateLineType[] = [
       <div class="banner"></div>
       <div class="info">
         <div class="nickname">
-          <span>{{ store.userInfo.nickname }}</span>
+          <span>{{ data.nickname }}</span>
           <IconEdit />
         </div>
         <div class="other">
           <span>
             <LunarIcon icon="ic:sharp-location-on" />
-            地址
+            {{ data.addr }}
           </span>
           <span>
             <LunarIcon icon="mynaui:door-open-solid" />
@@ -42,7 +67,7 @@ const dateLineList: dateLineType[] = [
           </span>
         </div>
         <div class="avatar">
-          <a-avatar :size="90" :image-url="store.userInfo.avatar" />
+          <a-avatar :size="90" :image-url="data.avatar" />
         </div>
         <div class="actions">
           <a-button type="outline">关注用户</a-button>
@@ -56,12 +81,12 @@ const dateLineList: dateLineType[] = [
           <LunarPointTitle>基本信息</LunarPointTitle>
           <div class="body">
             <a-form :model="{}" :wrapper-col-props="{span: 20}" :label-col-props="{span: 4}">
-              <a-form-item label="用户名">{{ store.userInfo.nickname }}</a-form-item>
-              <a-form-item label="昵称">{{ store.userInfo.nickname }}</a-form-item>
-              <a-form-item label="注册时间">{{ dateTimeFormat(new Date().toString()) }}</a-form-item>
-              <a-form-item label="登陆时间">{{ dateTimeFormat(new Date().toString()) }}</a-form-item>
+              <a-form-item label="用户名">{{ data.nickname }}</a-form-item>
+              <a-form-item label="昵称">{{ data.nickname }}</a-form-item>
+              <a-form-item label="注册时间">{{ dateTimeFormat(data.createdAt) }}</a-form-item>
+              <a-form-item label="登陆时间">{{ dateTimeFormat(data.updatedAt) }}</a-form-item>
               <a-form-item label="手机号码">******</a-form-item>
-              <a-form-item label="邮箱">114514@1919.com</a-form-item>
+              <a-form-item label="邮箱">{{ data.email }}</a-form-item>
               <a-form-item label="密码">
                 已设置
                 <a class="edit" href="javascript:void(0);">修改</a>
@@ -72,9 +97,7 @@ const dateLineList: dateLineType[] = [
         <div class="my-role sector">
           <LunarPointTitle>我的角色</LunarPointTitle>
           <div class="body">
-            <a-tag>管理员</a-tag>
-            <a-tag>User</a-tag>
-            <a-tag>ReadOnly</a-tag>
+            <a-tag v-for="item in data.roleList">{{ item }}</a-tag>
           </div>
         </div>
       </div>

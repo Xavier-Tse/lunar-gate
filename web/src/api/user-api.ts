@@ -27,6 +27,22 @@ export function userInfoApi(): Promise<baseResponse<userInfoResponse>> {
   return useAxios.get("/api/user/info")
 }
 
+export interface userDetailResponse {
+  userID: number
+  nickname: string
+  username: string
+  email: string
+  avatar: string
+  createdAt: string
+  updatedAt: string
+  roleList: string[]
+  addr: string
+}
+
+export function userDetailApi(): Promise<baseResponse<userDetailResponse>> {
+  return useAxios.get('/api/user/detail')
+}
+
 export interface userRegisterRequest {
   email: string
   emailCode: string
