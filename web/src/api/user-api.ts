@@ -27,6 +27,15 @@ export function userInfoApi(): Promise<baseResponse<userInfoResponse>> {
   return useAxios.get("/api/user/info")
 }
 
+export interface userInfoUpdateRequest {
+  nickname?: string
+  avatar?: string
+}
+
+export function userInfoUpdateApi(data: userInfoUpdateRequest): Promise<baseResponse<string>> {
+  return useAxios.put('/api/user/info', data)
+}
+
 export interface userDetailResponse {
   userID: number
   nickname: string

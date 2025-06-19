@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { userDetailApi, type userDetailResponse } from '@/api/user-api';
+import { userDetailApi, userInfoUpdateApi, type userDetailResponse } from '@/api/user-api';
 import LunarUserLoginEcharts from '@/components/admin/echarts/lunar-user-login-echarts.vue';
 import LunarIcon from '@/components/base/lunar-icon.vue';
 import LunarPointTitle from '@/components/base/lunar-point-title.vue';
-import { useStore } from '@/stores';
 import { dateTimeFormat } from '@/utils/date';
 import { Message } from '@arco-design/web-vue';
-import { reactive } from 'vue';
+import { nextTick, reactive, ref } from 'vue';
 
-const store = useStore()
+const nicknameInputRef = ref()
+const nickname = ref('')
+const nicknameInputVisiable = ref(false)
 
 interface dateLineType {
   date: string
@@ -41,6 +42,27 @@ async function getData() {
   Object.assign(data, res.data)
 }
 getData()
+
+function editClick() {
+  nickname.value = data.nickname
+  nicknameInputVisiable.value = true
+  nextTick(() => {
+    nicknameInputRef.value?.focus()
+  })
+}
+
+async function inputBlur() {
+  if (nickname.value !== data.nickname) {
+    const res = await userInfoUpdateApi({ nickname: nickname.value })
+    if (res.code) {
+      Message.error(res.message)
+      return
+    }
+    Message.success(res.message)
+    data.nickname = nickname.value
+  }
+  nicknameInputVisiable.value = false
+}
 </script>
 
 <template>
@@ -49,8 +71,16 @@ getData()
       <div class="banner"></div>
       <div class="info">
         <div class="nickname">
-          <span>{{ data.nickname }}</span>
-          <IconEdit />
+          <span v-if="!nicknameInputVisiable">{{ data.nickname }}</span>
+          <a-input
+            v-else
+            v-model="nickname"
+            @blur="inputBlur" @keydown.enter="inputBlur"
+            ref="nicknameInputRef"
+            placeholder="请输入昵称"
+            style="width: 150px;"
+          />
+          <IconEdit @click="editClick" />
         </div>
         <div class="other">
           <span>
