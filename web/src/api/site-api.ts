@@ -24,3 +24,7 @@ export interface siteInfoResponse {
 export function siteInfoApi(): Promise<baseResponse<siteInfoResponse>> {
   return useAxios.get('/api/site/info')
 }
+
+export function siteInfoUpdateApi(data: siteInfoResponse): Promise<baseResponse<string>> {
+  return useAxios.put('/api/site/info', data)
+}
