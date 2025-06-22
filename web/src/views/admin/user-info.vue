@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import type { baseResponse } from '@/api';
-import { userDetailApi, userInfoUpdateApi, type userDetailResponse } from '@/api/user-api';
+import { userDetailApi, userInfoUpdateApi, userPasswordUpdateApi, type userDetailResponse, type userPasswordUpdateRequest } from '@/api/user-api';
 import LunarUserLoginEcharts from '@/components/admin/echarts/lunar-user-login-echarts.vue';
 import LunarIcon from '@/components/base/lunar-icon.vue';
 import LunarImgCutter from '@/components/base/lunar-img-cutter.vue';
 import LunarPointTitle from '@/components/base/lunar-point-title.vue';
-import { useStore } from '@/stores';
 import { dateTimeFormat } from '@/utils/date';
-import { type FileItem, Message } from '@arco-design/web-vue';
+import { Message } from '@arco-design/web-vue';
 import { nextTick, reactive, ref } from 'vue';
 
 const nicknameInputRef = ref()
 const nickname = ref('')
 const nicknameInputVisiable = ref(false)
-const store = useStore()
+const visible = ref(false)
+const formRef = ref()
+const form = reactive<userPasswordUpdateRequest>({
+  oldPwd: '',
+  pwd: '',
+  rePwd: '',
+})
 
 interface dateLineType {
   date: string
@@ -76,6 +80,25 @@ async function imageUploadSuccess() {
   }
   Message.success(res.message)
 }
+
+async function updateUserPasswordHandler() {
+  const val = await formRef.value.validate()
+  if (val) {
+    return
+  }
+  const res = await userPasswordUpdateApi(form)
+  if (res.code) {
+    Message.error(res.message)
+    return
+  }
+  Message.success(res.message)
+}
+
+function pwdValidator(value: string | undefined, callback: (error?: string) => void) {
+  if (value !== form.pwd) {
+    callback('两次输入的密码不一致')
+  }
+}
 </script>
 
 <template>
@@ -118,6 +141,19 @@ async function imageUploadSuccess() {
         </div>
       </div>
     </div>
+    <a-modal title="修改密码" v-model:visible="visible" :on-before-ok="updateUserPasswordHandler">
+      <a-form ref="formRef" :model="form">
+        <a-form-item label="原密码" filed="oldPwd" :rules="[{ required: true, message: '请输入原密码' }]" validate-trigger="blur">
+          <a-input-password placeholder="请输入原密码" v-model="form.oldPwd" />
+        </a-form-item>
+        <a-form-item label="新密码" filed="pwd" :rules="[{ required: true, message: '请输入新密码' }]" validate-trigger="blur">
+          <a-input-password placeholder="请输入新密码" v-model="form.pwd" />
+        </a-form-item>
+        <a-form-item label="确认密码" filed="rePwd" :rules="[{ required: true, message: '请输入确认密码' }, { validator: pwdValidator }]" validate-trigger="blur">
+          <a-input-password placeholder="请输入确认密码" v-model="form.rePwd" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
     <div class="body">
       <div>
         <div class="base-info sector">
@@ -132,7 +168,7 @@ async function imageUploadSuccess() {
               <a-form-item label="邮箱">{{ data.email }}</a-form-item>
               <a-form-item label="密码">
                 已设置
-                <a class="edit" href="javascript:void(0);">修改</a>
+                <a class="edit" href="javascript:void(0);" @click="visible=true">修改</a>
               </a-form-item>
             </a-form>
           </div>

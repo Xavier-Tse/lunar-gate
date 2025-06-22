@@ -102,3 +102,13 @@ export interface userRoleUpdateRequest {
 export function userRoleUpdateApi(data: userRoleUpdateRequest): Promise<baseResponse<string>> {
   return useAxios.put('/api/user/role', data)
 }
+
+export interface userPasswordUpdateRequest {
+  oldPwd: string
+  pwd: string
+  rePwd: string
+}
+
+export function userPasswordUpdateApi(data: userPasswordUpdateRequest): Promise<baseResponse<string>> {
+  return useAxios.put('/api/user/password', data)
+}
