@@ -5,6 +5,7 @@ import (
 	"github.com/Xavier-Tse/lunar-gate/api/captcha_api"
 	"github.com/Xavier-Tse/lunar-gate/api/data_api"
 	"github.com/Xavier-Tse/lunar-gate/api/email_api"
+	"github.com/Xavier-Tse/lunar-gate/api/image_api"
 	"github.com/Xavier-Tse/lunar-gate/api/menu_api"
 	"github.com/Xavier-Tse/lunar-gate/api/permission_api"
 	"github.com/Xavier-Tse/lunar-gate/api/role_api"
@@ -24,6 +25,7 @@ type Api struct {
 	data_api.DataApi
 	site_api.SiteApi
 	ws_api.WsApi
+	image_api.ImageApi
 }
 
 var App = new(Api)

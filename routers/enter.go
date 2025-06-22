@@ -62,6 +62,7 @@ func Run() {
 	DataRouter(g)
 	SiteRouter(g)
 	WsRouter(g)
+	ImageRouter(g)
 
 	r.Static("/static", "./static")
 

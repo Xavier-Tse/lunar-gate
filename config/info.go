@@ -4,6 +4,7 @@ type Info struct {
 	Site    `yaml:"site" json:"site"`
 	Project `yaml:"project" json:"project"`
 	Login   `yaml:"login" json:"login"`
+	File    `yaml:"file" json:"file"`
 }
 
 type Site struct {
@@ -27,4 +28,9 @@ type Login struct {
 type Captcha struct {
 	Enable bool   `yaml:"enable" json:"enable"`
 	Type   string `yaml:"type" json:"type"`
+}
+
+type File struct {
+	Size int64  `yaml:"size" json:"size"`
+	Dir  string `yaml:"dir" json:"dir"`
 }

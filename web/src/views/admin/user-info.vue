@@ -1,15 +1,19 @@
 <script setup lang="ts">
+import type { baseResponse } from '@/api';
 import { userDetailApi, userInfoUpdateApi, type userDetailResponse } from '@/api/user-api';
 import LunarUserLoginEcharts from '@/components/admin/echarts/lunar-user-login-echarts.vue';
 import LunarIcon from '@/components/base/lunar-icon.vue';
+import LunarImgCutter from '@/components/base/lunar-img-cutter.vue';
 import LunarPointTitle from '@/components/base/lunar-point-title.vue';
+import { useStore } from '@/stores';
 import { dateTimeFormat } from '@/utils/date';
-import { Message } from '@arco-design/web-vue';
+import { type FileItem, Message } from '@arco-design/web-vue';
 import { nextTick, reactive, ref } from 'vue';
 
 const nicknameInputRef = ref()
 const nickname = ref('')
 const nicknameInputVisiable = ref(false)
+const store = useStore()
 
 interface dateLineType {
   date: string
@@ -63,6 +67,15 @@ async function inputBlur() {
   }
   nicknameInputVisiable.value = false
 }
+
+async function imageUploadSuccess() {
+  const res = await userInfoUpdateApi({ avatar: data.avatar })
+  if (res.code) {
+    Message.error(res.message)
+    return
+  }
+  Message.success(res.message)
+}
 </script>
 
 <template>
@@ -97,7 +110,7 @@ async function inputBlur() {
           </span>
         </div>
         <div class="avatar">
-          <a-avatar :size="90" :image-url="data.avatar" />
+          <LunarImgCutter @ok="imageUploadSuccess" v-model="data.avatar" />
         </div>
         <div class="actions">
           <a-button type="outline">关注用户</a-button>
