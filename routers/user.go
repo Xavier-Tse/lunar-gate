@@ -14,6 +14,7 @@ func UserRouter(g *gin.RouterGroup) {
 	r.PUT("password", app.UpdatePassword)
 	r.PUT("info", app.UpdateUserinfo)
 	r.GET("info", app.Userinfo)
+	r.GET("detail", app.UserDetail)
 	r.GET("", app.List)
 	r.DELETE("", app.Remove)
 	r.PUT("role", app.UserRoleUpdate)

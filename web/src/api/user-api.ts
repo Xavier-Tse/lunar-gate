@@ -27,6 +27,31 @@ export function userInfoApi(): Promise<baseResponse<userInfoResponse>> {
   return useAxios.get("/api/user/info")
 }
 
+export interface userInfoUpdateRequest {
+  nickname?: string
+  avatar?: string
+}
+
+export function userInfoUpdateApi(data: userInfoUpdateRequest): Promise<baseResponse<string>> {
+  return useAxios.put('/api/user/info', data)
+}
+
+export interface userDetailResponse {
+  userID: number
+  nickname: string
+  username: string
+  email: string
+  avatar: string
+  createdAt: string
+  updatedAt: string
+  roleList: string[]
+  addr: string
+}
+
+export function userDetailApi(): Promise<baseResponse<userDetailResponse>> {
+  return useAxios.get('/api/user/detail')
+}
+
 export interface userRegisterRequest {
   email: string
   emailCode: string
@@ -76,4 +101,14 @@ export interface userRoleUpdateRequest {
 
 export function userRoleUpdateApi(data: userRoleUpdateRequest): Promise<baseResponse<string>> {
   return useAxios.put('/api/user/role', data)
+}
+
+export interface userPasswordUpdateRequest {
+  oldPwd: string
+  pwd: string
+  rePwd: string
+}
+
+export function userPasswordUpdateApi(data: userPasswordUpdateRequest): Promise<baseResponse<string>> {
+  return useAxios.put('/api/user/password', data)
 }

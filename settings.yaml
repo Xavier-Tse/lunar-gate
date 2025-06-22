@@ -47,3 +47,6 @@ info:
     captcha:
       enable:
       type:     # string math
+  file:
+    size:       # 单位:MB
+    dir:
