@@ -12,6 +12,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "ansi_up": "^6.0.6",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
     "echarts": "^5.6.0",

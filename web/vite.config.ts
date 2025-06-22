@@ -9,6 +9,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig(({ mode }) => {
   let env: Record<keyof ImportMetaEnv, string> = loadEnv(mode, process.cwd())
   const serverUrl = env.VITE_SERVER_URL
+  const wsUrl = serverUrl.replace('http', 'ws')
+
   return {
     plugins: [
       vue(),
@@ -31,6 +33,11 @@ export default defineConfig(({ mode }) => {
         "/static": {
           target: serverUrl,
           changeOrigin: true,
+        },
+        "/api/ws": {
+          target: serverUrl,
+          changeOrigin: true,
+          ws: true,
         },
       }
     }
