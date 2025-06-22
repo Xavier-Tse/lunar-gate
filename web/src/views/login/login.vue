@@ -31,7 +31,9 @@ async function handleLogin() {
   }
   Message.success(res.message)
   await store.saveUser(res.data!.token)
-  router.push({ name: 'data' })
+  store.isLoadMenu = false
+  await store.getRoleMenuTree()
+  router.replace({ name: 'data' })
 }
 
 function handleCaptchaChange(captchaID: string) {
