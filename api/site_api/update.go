@@ -16,6 +16,14 @@ func (SiteApi) Update(c *gin.Context) {
 	name := c.Param("name")
 	switch name {
 	case "info":
+		var cr config.Info
+		err := c.ShouldBindJSON(&cr)
+		if err != nil {
+			res.FailBinding(err, c)
+			return
+		}
+		global.Config.Info = cr
+	case "site":
 		var cr config.Site
 		err := c.ShouldBindJSON(&cr)
 		if err != nil {

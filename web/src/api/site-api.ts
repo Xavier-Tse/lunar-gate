@@ -24,3 +24,24 @@ export interface siteInfoResponse {
 export function siteInfoApi(): Promise<baseResponse<siteInfoResponse>> {
   return useAxios.get('/api/site/info')
 }
+
+export function siteInfoUpdateApi(data: siteInfoResponse): Promise<baseResponse<string>> {
+  return useAxios.put('/api/site/info', data)
+}
+
+export interface emailInfoType {
+  enable: boolean
+  domain: string
+  port: number
+  sendEmail: string
+  authCode: string
+  sendNickname: string
+}
+
+export function emailInfoApi(): Promise<baseResponse<emailInfoType>> {
+  return useAxios.get('/api/site/email')
+}
+
+export function emailInfoUpdateApi(data: emailInfoType): Promise<baseResponse<string>> {
+  return useAxios.put('/api/site/email', data)
+}
