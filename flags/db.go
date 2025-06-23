@@ -10,9 +10,11 @@ import (
 func AutoMigrate() {
 	if err := global.DB.AutoMigrate(
 		&model.Api{},
+		&model.Button{},
 		&model.Menu{},
 		&model.Role{},
 		&model.RoleApi{},
+		&model.RoleButton{},
 		&model.RoleMenu{},
 		&model.User{},
 		&model.UserLogin{},
