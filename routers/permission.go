@@ -12,4 +12,5 @@ func PermissionRouter(g *gin.RouterGroup) {
 	r.PUT("menu", app.RoleMenuPermission)
 	r.PUT("button", app.RoleButton)
 	r.GET("tree", app.RoleMenuTree)
+	r.GET("button", app.RoleButtonList)
 }
