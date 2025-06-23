@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { theme } from '@/components/base/theme'
 import * as echarts from 'echarts'
-import {onMounted, watch} from "vue"
+import {onMounted, onUnmounted, watch} from "vue"
 
 type EChartsOption = echarts.EChartsOption
 let myChart: echarts.ECharts | null = null
@@ -16,9 +16,15 @@ onMounted(async() => {
   initEcharts()
 })
 
-window.onresize = () => {
+function resize() {
   myChart?.resize()
 }
+
+window.addEventListener('resize', resize)
+
+onUnmounted(() => {
+  window.removeEventListener('resize', resize)
+})
 
 function initEcharts() {
   let option: EChartsOption
