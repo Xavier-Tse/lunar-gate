@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { useStore } from '@/stores'
+import { Message } from '@arco-design/web-vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +107,13 @@ router.beforeEach(async (to, from, next) => {
     await store.getRoleMenuTree()
     next({ ...to, replace: true })
     return
+  }
+  if (to.path.startsWith('/admin')) {
+    if (store.userInfo.userID === 0) {
+      Message.warning('请登陆')
+      router.push({ name: 'login' })
+      return
+    }
   }
   next()
 })
