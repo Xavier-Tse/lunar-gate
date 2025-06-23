@@ -3,7 +3,7 @@ import { dataComputerApi, type dataComputerResponse } from '@/api/data-api'
 import { theme } from '@/components/base/theme'
 import { Message } from '@arco-design/web-vue'
 import * as echarts from 'echarts'
-import {onMounted, reactive, watch} from "vue"
+import {onMounted, onUnmounted, reactive, watch} from "vue"
 
 type EChartsOption = echarts.EChartsOption
 let myChart: echarts.ECharts | null = null
@@ -30,9 +30,15 @@ onMounted(async() => {
   initEcharts()
 })
 
-window.onresize = () => {
+function resize() {
   myChart?.resize()
 }
+
+window.addEventListener('resize', resize)
+
+onUnmounted(() => {
+  window.removeEventListener('resize', resize)
+})
 
 function initEcharts() {
   let option: EChartsOption;
