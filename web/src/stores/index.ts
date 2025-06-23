@@ -157,6 +157,17 @@ export const useStore = defineStore('useStore', {
   }
 })
 
+const viewModules = import.meta.glob('../views/**/*.vue')
+
+function dynamicImport(dynamicViewsModules: Record<string, () => Promise<unknown>>, component: string) {
+  const keys = Object.keys(dynamicViewsModules)
+  const matchKeys = keys.filter((key) => {
+    return key === component
+  })
+  const matchKey = matchKeys[0]
+  return dynamicViewsModules[matchKey]
+}
+
 function transformRoutes(backendRoutes: menuType[]): RouteRecordRaw[] {
   return backendRoutes.map(route => {
     const item = {
@@ -164,7 +175,7 @@ function transformRoutes(backendRoutes: menuType[]): RouteRecordRaw[] {
       children: route.children ? transformRoutes(route.children) : []
     }
     if (route.component) {
-      item.component = (() => import(/* @vite-ignore */route.component)) as any
+      item.component = dynamicImport(viewModules, route.component) as any
     }
     return item as any
   })
