@@ -12,5 +12,6 @@ func ButtonRouter(g *gin.RouterGroup) {
 	r.PUT("", app.Update)
 	r.GET("", app.List)
 	r.GET("options", app.GroupOptions)
+	r.GET("tree", app.Tree)
 	r.DELETE("", app.Remove)
 }
