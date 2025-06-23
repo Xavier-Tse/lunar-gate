@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/Xavier-Tse/lunar-gate/api/api_api"
+	"github.com/Xavier-Tse/lunar-gate/api/button_api"
 	"github.com/Xavier-Tse/lunar-gate/api/captcha_api"
 	"github.com/Xavier-Tse/lunar-gate/api/data_api"
 	"github.com/Xavier-Tse/lunar-gate/api/email_api"
@@ -26,6 +27,7 @@ type Api struct {
 	site_api.SiteApi
 	ws_api.WsApi
 	image_api.ImageApi
+	button_api.ButtonApi
 }
 
 var App = new(Api)
