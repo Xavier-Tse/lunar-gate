@@ -12,7 +12,7 @@ import (
 
 type RoleButtonPermissionRequest struct {
 	RoleID uint   `json:"roleID" binding:"required"`
-	IDList []uint `json:"idList" binding:"required"`
+	IDList []uint `json:"buttonIDList" binding:"required"`
 }
 
 func (PermissionApi) RoleButton(c *gin.Context) {

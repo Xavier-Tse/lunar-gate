@@ -39,7 +39,7 @@ getSumData()
           <span>今日注册：{{ sumData.nowRegisterCount }}</span>
         </div>
       </div>
-      <div class="sector charts">
+      <div class="sector charts" v-if="store.hasButton('data-system-echarts')">
         <div class="title">
           <LunarPointTitle>最近7日数据</LunarPointTitle>
         </div>

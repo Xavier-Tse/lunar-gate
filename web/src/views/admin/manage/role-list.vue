@@ -2,6 +2,7 @@
 import { roleCreateApi, roleListApi, type roleCreateRequest, type roleType } from '@/api/role-api';
 import LunarList from '@/components/admin/lunar-list.vue';
 import LunarRoleApiModal from '@/components/admin/lunar-role-api-modal.vue';
+import LunarRoleButtonModal from '@/components/admin/lunar-role-button-modal.vue';
 import LunarRoleMenuModal from '@/components/admin/lunar-role-menu-modal.vue';
 import { Message } from '@arco-design/web-vue';
 import { reactive, ref } from 'vue';
@@ -11,6 +12,7 @@ const formRef = ref()
 const visible = ref(false)
 const menuVisible = ref(false)
 const apiVisible = ref(false)
+const buttonVisible = ref(false)
 
 const form = reactive<roleCreateRequest>({
   id: 0,
@@ -23,6 +25,7 @@ const columns = [
   { title: '角色API数', dataIndex: 'roleApiCount' },
   { title: '角色用户数', dataIndex: 'roleUserCount' },
   { title: '角色菜单数', dataIndex: 'roleMenuCount' },
+  { title: '角色按钮数', dataIndex: 'roleMenuCount' },
   { title: '创建时间', slotName: 'createdAt' },
   { title: '更新时间', dataIndex: 'updatedAt', type: 'datetime' },
   { title: '操作', slotName: 'action' },
@@ -32,12 +35,14 @@ interface roleDataType {
   roleID: number
   menuIDList: number[]
   apiIDList: number[]
+  buttonIDList: number[]
 }
 
 const checkRoleData = reactive<roleDataType>({
   roleID: 0,
   menuIDList: [],
   apiIDList: [],
+  buttonIDList: [],
 })
 
 function edit(record: roleType) {
@@ -90,6 +95,15 @@ function updateApiOk() {
   lunarListRef.value.getList()
 }
 
+function showButtonModal(record: roleType) {
+  checkRoleData.roleID = record.id
+  checkRoleData.buttonIDList = record.buttonIDList as any
+  buttonVisible.value = true
+}
+
+function updateButtonOk() {
+  lunarListRef.value.getList()
+}
 </script>
 
 <template>
@@ -101,12 +115,14 @@ function updateApiOk() {
         </a-form-item>
       </a-form>
     </a-modal>
-    <LunarRoleMenuModal @ok="updateMenuOk" :menu-id-list="checkRoleData.menuIDList" :role-id="checkRoleData.roleID" v-model:visible="menuVisible"></LunarRoleMenuModal>
-    <LunarRoleApiModal @ok="updateApiOk" :api-id-list="checkRoleData.apiIDList" :role-id="checkRoleData.roleID" v-model:visible="apiVisible"></LunarRoleApiModal>
+    <LunarRoleButtonModal @ok="updateButtonOk" :button-id-list="checkRoleData.buttonIDList" :role-id="checkRoleData.roleID" v-model:visible="buttonVisible" />
+    <LunarRoleMenuModal @ok="updateMenuOk" :menu-id-list="checkRoleData.menuIDList" :role-id="checkRoleData.roleID" v-model:visible="menuVisible" />
+    <LunarRoleApiModal @ok="updateApiOk" :api-id-list="checkRoleData.apiIDList" :role-id="checkRoleData.roleID" v-model:visible="apiVisible" />
     <LunarList ref="lunarListRef" :columns="columns" :url="roleListApi" @edit="edit" @add="add">
       <template #action-left="{record}: {record: roleType}">
         <a-button @click="showMenuModal(record)" type="outline">设置菜单</a-button>
         <a-button @click="showApiModal(record)" type="outline">设置API</a-button>
+        <a-button @click="showButtonModal(record)" type="outline">设置按钮</a-button>
       </template>
     </LunarList>
   </div>

@@ -20,6 +20,19 @@ export function permissionRoleApiApi(data: permissionRoleApiRequest): Promise<ba
   return useAxios.put('/api/permission/api', data)
 }
 
+export interface permissionRoleButtonRequest {
+  roleID: number
+  buttonIDList: number[]
+}
+
+export function permissionButtonUpdateApi(data: permissionRoleButtonRequest): Promise<baseResponse<string>> {
+  return useAxios.put('/api/permission/button', data)
+}
+
 export function permissionRoleMenuTreeApi(): Promise<baseResponse<menuType[]>> {
   return useAxios.get('/api/permission/tree')
+}
+
+export function permissionRoleButtonListApi(): Promise<baseResponse<string[]>> {
+  return useAxios.get('/api/permission/button')
 }

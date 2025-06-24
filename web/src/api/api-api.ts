@@ -23,7 +23,7 @@ export function apiListApi(params?: apiListRequest): Promise<baseResponse<listRe
 export interface apiCreateRequest {
   id: number
   name: string
-  "path": string
+  path: string
   method: string
   group: string
 }
