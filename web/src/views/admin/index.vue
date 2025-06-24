@@ -122,6 +122,8 @@ function goHome() {
       padding: 20px;
       background-color: var(--color-neutral-2);
       height: calc(100vh - 90px);
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 }
