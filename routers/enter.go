@@ -64,6 +64,7 @@ func Run() {
 	WsRouter(g)
 	ImageRouter(g)
 	ButtonRouter(g)
+	LogRouter(g)
 
 	r.Static("/static", "./static")
 

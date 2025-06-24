@@ -40,11 +40,6 @@ func (UserApi) UserRoleUpdate(c *gin.Context) {
 		Where("user_id = ?", cr.UserID).
 		Select("role_id").Scan(&userRoleIDList)
 
-	// 找出要添加的和要删除的
-	// 已有 1, 2, 3, 4
-	// 传入 3, 4, 5, 6
-	// 添加 5, 6
-	// 删除 1, 2
 	intersectList := set.IntersectArray(userRoleIDList, cr.RoleIDList)
 	removeList := set.DiffArray(userRoleIDList, intersectList)
 	addList := set.DiffArray(cr.RoleIDList, intersectList)

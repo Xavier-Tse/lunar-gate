@@ -47,14 +47,11 @@ func (WsApi) Ws(c *gin.Context) {
 	addr := conn.RemoteAddr().String()
 	WsMap[addr] = conn
 	logrus.Infof("ws %s 进入", addr)
-
 	for {
-		// 消息类型，消息，错误
 		_, _, err := conn.ReadMessage()
 		if err != nil {
 			break
 		}
-
 	}
 	defer conn.Close()
 	delete(WsMap, addr)
