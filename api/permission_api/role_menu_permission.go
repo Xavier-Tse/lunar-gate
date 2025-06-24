@@ -64,7 +64,7 @@ func (PermissionApi) RoleMenuPermission(c *gin.Context) {
 	if len(removeList) > 0 {
 		var removeRoleMenuList []model.RoleMenu
 		global.DB.Find(&removeRoleMenuList, "role_id = ? and menu_id in ?", cr.RoleID, removeList)
-		global.DB.Delete(&removeRoleMenuList)
+		global.DB.Unscoped().Delete(&removeRoleMenuList)
 	}
 	msg := fmt.Sprintf("新增 %d 个，删除 %d 个", len(addList), len(removeList))
 	res.OkWithMessage(msg, c)

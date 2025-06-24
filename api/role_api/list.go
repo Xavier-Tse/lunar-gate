@@ -13,12 +13,14 @@ type RoleListRequest struct {
 
 type RoleListResponse struct {
 	model.LunarModel
-	Title         string `json:"title"`
-	RoleUserCount int    `json:"roleUserCount"`
-	RoleApiCount  int    `json:"roleApiCount"`
-	RoleMenuCount int    `json:"roleMenuCount"`
-	ApiIDList     []uint `json:"apiIDList"`
-	MenuIDList    []uint `json:"menuIDList"`
+	Title           string `json:"title"`
+	RoleUserCount   int    `json:"roleUserCount"`
+	RoleApiCount    int    `json:"roleApiCount"`
+	RoleMenuCount   int    `json:"roleMenuCount"`
+	RoleButtonCount int    `json:"roleButtonCount"`
+	ApiIDList       []uint `json:"apiIDList"`
+	MenuIDList      []uint `json:"menuIDList"`
+	ButtonIDList    []uint `json:"buttonIDList"`
 }
 
 func (RoleApi) List(c *gin.Context) {
@@ -31,26 +33,32 @@ func (RoleApi) List(c *gin.Context) {
 	_list, count, _ := query.List(model.Role{}, query.Option{
 		Page:     cr.Page,
 		Likes:    []string{"title"},
-		Preloads: []string{"UserList", "MenuList", "ApiList"},
+		Preloads: []string{"UserList", "MenuList", "ApiList", "ButtonList"},
 	})
 	var list = make([]RoleListResponse, 0)
 	for _, role := range _list {
 		var apiIDList = make([]uint, 0)
 		var menuIDList = make([]uint, 0)
+		var buttonIDList = make([]uint, 0)
 		for _, api := range role.ApiList {
 			apiIDList = append(apiIDList, api.ID)
 		}
 		for _, menu := range role.MenuList {
 			menuIDList = append(menuIDList, menu.ID)
 		}
+		for _, btn := range role.ButtonList {
+			buttonIDList = append(buttonIDList, btn.ID)
+		}
 		list = append(list, RoleListResponse{
-			LunarModel:    role.LunarModel,
-			Title:         role.Title,
-			RoleUserCount: len(role.UserList),
-			RoleMenuCount: len(role.MenuList),
-			RoleApiCount:  len(role.ApiList),
-			ApiIDList:     apiIDList,
-			MenuIDList:    menuIDList,
+			LunarModel:      role.LunarModel,
+			Title:           role.Title,
+			RoleUserCount:   len(role.UserList),
+			RoleMenuCount:   len(role.MenuList),
+			RoleApiCount:    len(role.ApiList),
+			RoleButtonCount: len(role.ApiList),
+			ApiIDList:       apiIDList,
+			MenuIDList:      menuIDList,
+			ButtonIDList:    buttonIDList,
 		})
 	}
 	res.OkWithList(list, count, c)

@@ -77,12 +77,19 @@ export function generateOptionsCache(func: () => Promise<baseResponse<optionsRes
   const key = func.toString()
   let val = cacheData[key]
   if (!val) {
-    const res = func()
-    val = {
-      res: res,
-      time: new Date().getTime(),
+    if (typeof func === 'function') {
+      const res = func()
+      val = {
+        res: res,
+        time: new Date().getTime(),
+      }
+      cacheData[key] = val
+    } else {
+      val = {
+        res: func,
+        time: new Date().getTime(),
+      }
     }
-    cacheData[key] = val
   }
 
   const nowTime = new Date().getTime()

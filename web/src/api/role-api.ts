@@ -7,9 +7,11 @@ export interface roleType {
   title: string
   roleUserCount: number
   roleApiCount: number
+  roleButtonCount: number
   roleMenuCount: number
   menuIDList: number[]
   apiIDList: number[]
+  buttonIDList: []
 }
 
 export function roleOptionsApi(): Promise<baseResponse<optionsResponse[]>> {

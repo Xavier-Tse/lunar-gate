@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { apiGroupApi, type apiType } from '@/api/api-api';
-import { type menuType } from '@/api/menu-api';
 import { permissionRoleApiApi, type permissionRoleApiRequest } from '@/api/permission-api';
 import { Message } from '@arco-design/web-vue';
 import { reactive, ref } from 'vue';
@@ -20,7 +19,6 @@ const form = reactive<permissionRoleApiRequest>({
 })
 
 const data = ref<Record<string, apiType[]>>({})
-const groupList = ref<string[]>([])
 
 async function getApiGroup() {
   const res = await apiGroupApi()

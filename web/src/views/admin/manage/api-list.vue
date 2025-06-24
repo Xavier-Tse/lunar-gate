@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { generateOptions, generateOptionsCache } from '@/api';
+import { generateOptionsCache } from '@/api';
 import { apiCreateApi, apiGroupOptionsApi, apiListApi, type apiCreateRequest, type apiType } from '@/api/api-api';
 import LunarList from '@/components/admin/lunar-list.vue';
 import LunarSystemRouterModal from '@/components/admin/lunar-system-router-modal.vue';

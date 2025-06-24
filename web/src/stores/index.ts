@@ -1,5 +1,5 @@
 import type { menuType } from '@/api/menu-api'
-import { permissionRoleMenuTreeApi } from '@/api/permission-api'
+import { permissionRoleButtonListApi, permissionRoleMenuTreeApi } from '@/api/permission-api'
 import { siteInfoApi, type siteInfoResponse } from '@/api/site-api'
 import { userInfoApi, userLogoutApi } from '@/api/user-api'
 import router from '@/router'
@@ -18,6 +18,7 @@ interface IUserStoreType {
   }
   siteInfo: siteInfoResponse
   roleMenuTree: menuType[]
+  buttonList: string[]
   isLoadMenu: boolean
 }
 
@@ -52,6 +53,7 @@ export const useStore = defineStore('useStore', {
         }
       },
       roleMenuTree: [],
+      buttonList: [],
       isLoadMenu: false,
     }
   },
@@ -154,7 +156,28 @@ export const useStore = defineStore('useStore', {
       })
       this.isLoadMenu = true
     },
-  }
+    async getButtonList() {
+      const res = await permissionRoleButtonListApi()
+      if (res.code) {
+        return
+      }
+      this.buttonList = res.data as any
+    },
+  },
+  getters: {
+    isLogin(): boolean {
+      return this.userInfo.userID !== 0
+    },
+    hasButton(): (button: string) => boolean {
+      return (button) => {
+        const item = this.buttonList.find(value => value === button)
+        if (item) {
+          return true
+        }
+        return false
+      }
+    },
+  },
 })
 
 const viewModules = import.meta.glob('../views/**/*.vue')
